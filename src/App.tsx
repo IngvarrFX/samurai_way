@@ -29,7 +29,7 @@ const App = (props: AppPropsType) => {
                 <div className="app-wrapper-content">
                     <Route path="/dialogs" render={() => <Dialogs dialogs={state.dialogsPage.dialogsData}
                                                                   messages={state.messagePage.messagesData}
-                                                                  newMessage={state.messagePage.newPageMessage}
+                                                                  newMessage={state.messagePage.newMessageText}
                                                                   dispatch={props.store.dispatch.bind(props.store)}
                     />}/>
                     <Route path="/profile" render={() => <Profile posts={state.profilePage.postsData}

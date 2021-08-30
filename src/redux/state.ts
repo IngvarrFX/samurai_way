@@ -20,7 +20,7 @@ export type PostDataType = {
 
 export type MessagePageType = {
     messagesData: Array<MessageType>
-    newPageMessage: string
+    newMessageText: string
 }
 
 export type DialogsPageType = {
@@ -65,6 +65,11 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
+const ADD_POST = 'ADD-POST'
+const UPDATE_NEW_POST_TEXT ='UPDATE-NEW-POST-TEXT'
+const ADD_MESSAGE = 'ADD-MESSAGE'
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
+
 export const store: StoreType = {
     _state: {
         profilePage: {
@@ -94,7 +99,7 @@ export const store: StoreType = {
                 {id: v1(), message: 'Yo', likesCount: 23},
                 {id: v1(), message: 'You good!', likesCount: 55},
                 {id: v1(), message: 'My name is Mike', likesCount: 12},
-            ], newPageMessage: 'enter a new message'
+            ], newMessageText: ''
         }
 
     },
@@ -123,7 +128,7 @@ export const store: StoreType = {
     },
 
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
+        if (action.type === ADD_POST) {
             const newPost: PostDataType = {
                 id: v1(),
                 message: this._state.profilePage.newPostText,
@@ -132,23 +137,23 @@ export const store: StoreType = {
             this._state.profilePage.postsData.push(newPost)
             this._state.profilePage.newPostText = '';
             this.callSubscriber();
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
             if (action.newText != null) {
                 this._state.profilePage.newPostText = action.newText;
             }
             this.callSubscriber()
-        } else if (action.type === 'ADD-MESSAGE') {
+        } else if (action.type === ADD_MESSAGE) {
             const newMessage: MessageType = {
                 id: v1(),
-                message: this._state.messagePage.newPageMessage,
+                message: this._state.messagePage.newMessageText,
                 likesCount: 0
             }
             this._state.messagePage.messagesData.push(newMessage)
-            this._state.messagePage.newPageMessage = '';
+            this._state.messagePage.newMessageText = '';
             this.callSubscriber();
-        } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
-            if (action.newPageMessage != null) {
-                this._state.messagePage.newPageMessage = action.newPageMessage;
+        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+            if (action.newMessageBody != null) {
+                this._state.messagePage.newMessageText = action.newMessageBody;
             }
             this.callSubscriber()
         }
@@ -171,5 +176,5 @@ export const updateNewPostTextActionCreator = (text: string) => (
 export const addMessageActionCreator = () => ({type: 'ADD-MESSAGE'} as const)
 
 export const updateMessageActionCreator = (text: string) => (
-    {type: 'UPDATE-NEW-MESSAGE-TEXT', newPageMessage: text} as const
+    {type: 'UPDATE-NEW-MESSAGE-TEXT', newMessageBody: text} as const
 )
