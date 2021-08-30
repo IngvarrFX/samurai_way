@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/samurai_way/static/css/main.2be1fa2a.chunk.css",
+    "main.js": "/samurai_way/static/js/main.7052ddaf.chunk.js",
+    "main.js.map": "/samurai_way/static/js/main.7052ddaf.chunk.js.map",
+    "runtime-main.js": "/samurai_way/static/js/runtime-main.6a64fe48.js",
+    "runtime-main.js.map": "/samurai_way/static/js/runtime-main.6a64fe48.js.map",
+    "static/js/2.5ffc02d4.chunk.js": "/samurai_way/static/js/2.5ffc02d4.chunk.js",
+    "static/js/2.5ffc02d4.chunk.js.map": "/samurai_way/static/js/2.5ffc02d4.chunk.js.map",
+    "static/js/3.d398c2db.chunk.js": "/samurai_way/static/js/3.d398c2db.chunk.js",
+    "static/js/3.d398c2db.chunk.js.map": "/samurai_way/static/js/3.d398c2db.chunk.js.map",
+    "index.html": "/samurai_way/index.html",
+    "static/css/main.2be1fa2a.chunk.css.map": "/samurai_way/static/css/main.2be1fa2a.chunk.css.map",
+    "static/js/2.5ffc02d4.chunk.js.LICENSE.txt": "/samurai_way/static/js/2.5ffc02d4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6a64fe48.js",
+    "static/js/2.5ffc02d4.chunk.js",
+    "static/css/main.2be1fa2a.chunk.css",
+    "static/js/main.7052ddaf.chunk.js"
+  ]
+}
