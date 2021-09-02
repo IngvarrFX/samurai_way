@@ -1,23 +1,8 @@
-import {ActionsType, MessagePageType, MessageType, PostDataType, ProfilePageType} from './state';
+import {ActionsType, MessagePageType, MessageType} from './state';
 import {v1} from 'uuid';
 
 
-/*export type ActionsMessageReducerType =
-    ReturnType<typeof addMessageActionCreator>
-    | ReturnType<typeof updateMessageActionCreator>*/
 
-/*export type ActionsMessageReducerType =
-    AddMessageAC
-    | UpdateMessageAC
-
-export type AddMessageAC = {
-    type: 'ADD-MESSAGE'
-}
-
-export type UpdateMessageAC = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT'
-    newMessageBody: string
-}*/
 
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
