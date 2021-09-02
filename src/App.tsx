@@ -6,15 +6,14 @@ import {Profile} from './components/Profile/Profile';
 import {Dialogs} from './components/Dialogs/Dialogs';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {
-    ActionsType, /*AddPostActionType,*/
+    ActionsType,
     StateType,
-    StoreType, /*UpdateNewPostTextActionType,*/
+    StoreType,
 } from './redux/state';
+
 
 type AppPropsType = {
     store: StoreType
-    /*addPost: () => void
-    updatePostText: (text: string) => void*/
     dispatch: (action: ActionsType) => void
 
 }
@@ -35,7 +34,6 @@ const App = (props: AppPropsType) => {
                     <Route path="/profile" render={() => <Profile posts={state.profilePage.postsData}
                                                                   newPostText={state.profilePage.newPostText}
                                                                   dispatch={props.store.dispatch.bind(props.store)}
-                        /*updatePostText={props.store.updateNewPostText.bind(props.store)}*/
                     />}/>
                 </div>
             </div>

@@ -4,11 +4,11 @@ import style from './Dialogs.module.css'
 import {DialogItem} from './DialogItem/DialogItem';
 import {Messages} from './Messages/Messages';
 import {
-    ActionsType,
     addMessageActionCreator,
     updateMessageActionCreator,
-    updateNewPostTextActionCreator
-} from '../../redux/state';
+} from '../../redux/messageReducer';
+import {ActionsType} from '../../redux/state';
+
 
 export type DialogNamesType = {
     id: string

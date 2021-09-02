@@ -2,12 +2,10 @@ import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from 'r
 import {Post} from './Post/Post';
 import style from './MyPosts.module.css'
 import {
-    ActionsType,
     addPostActionCreator,
-    /*AddPostActionType,*/
-    PostDataType, updateNewPostTextActionCreator,
-    /*UpdateNewPostTextActionType*/
-} from '../../../redux/state';
+    updateNewPostTextActionCreator,
+} from '../../../redux/dialogsReducer';
+import {ActionsType, PostDataType} from '../../../redux/state';
 
 
 export type MessagesPropsType = {
