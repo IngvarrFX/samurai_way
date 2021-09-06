@@ -1,10 +1,13 @@
 import {v1} from 'uuid';
 import {
-    dialogsReducer,
+    addPostActionCreator,
+    dialogsReducer, updateNewPostTextActionCreator,
 } from './dialogsReducer';
 import {
-    messageReducer,
+    addMessageActionCreator,
+    messageReducer, updateMessageActionCreator,
 } from './messageReducer';
+
 
 
 export type MessageType = {
@@ -52,14 +55,14 @@ export type StoreType = {
     callSubscriber: () => void
     subscribe: (abserver: () => void) => void
     getState: () => StateType
-    /*dispatch: (action) => void*/
+    dispatch: (action: ActionsType) => void
 }
 
 
-/*export type ActionsType =
+export type ActionsType =
     ReturnType<typeof addMessageActionCreator>
     | ReturnType<typeof updateMessageActionCreator> | ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof updateNewPostTextActionCreator>*/
+    | ReturnType<typeof updateNewPostTextActionCreator>
 
 
 export const store: StoreType = {
@@ -104,14 +107,14 @@ export const store: StoreType = {
         return this._state
     },
 
-   /* dispatch(action) {
+     dispatch(action) {
 
-        this._state.profilePage = dialogsReducer(this._state.profilePage, action)
-        this._state.dialogsPage = messageReducer(this._state.dialogsPage, action)
-        this.callSubscriber()
+         this._state.profilePage = dialogsReducer(this._state.profilePage, action)
+         this._state.dialogsPage = messageReducer(this._state.dialogsPage, action)
+         this.callSubscriber()
 
 
-    }*/
+     }
 }
 
 

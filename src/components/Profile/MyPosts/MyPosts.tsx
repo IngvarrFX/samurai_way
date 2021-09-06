@@ -2,7 +2,7 @@ import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from 'r
 import {Post} from './Post/Post';
 import style from './MyPosts.module.css'
 import {
-    ActionsType,
+
     addPostActionCreator,
     updateNewPostTextActionCreator,
 } from '../../../redux/dialogsReducer';
@@ -18,7 +18,6 @@ export type MessagesPropsType = {
 export type DataType = {
     data: Array<PostDataType>
     newPostText: string
-    dispatch: (action: ActionsType) => void
     addPost: () => void
     updatePost:(text: string) => void
 }

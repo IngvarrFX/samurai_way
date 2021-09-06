@@ -3,7 +3,6 @@ import './App.css';
 import {Header} from './components/Header/Header';
 import {NavBar} from './components/NavBar/NavBar';
 import {Profile} from './components/Profile/Profile';
-import {Dialogs} from './components/Dialogs/Dialogs';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {
     StateType,
@@ -14,21 +13,21 @@ import {Store} from 'redux';
 import {DialogsContainer} from './components/Dialogs/DialogsContainer';
 
 
-type AppPropsType = {
+/*type AppPropsType = {
     state: StateType
     store: Store
-}
+}*/
 
-const App = (props: AppPropsType) => {
-    const state: StateType = props.state
+const App = () => {
+    //const state: StateType = props.state
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
                 <NavBar/>
                 <div className="app-wrapper-content">
-                    <Route path="/dialogs" render={() => <DialogsContainer store={props.store}/>}/>
-                    <Route path="/profile" render={() => <Profile store={props.store}/>}/>
+                    <Route path="/dialogs" render={() => <DialogsContainer/>}/>
+                    <Route path="/profile" render={() => <Profile/>}/>
                 </div>
             </div>
         </BrowserRouter>

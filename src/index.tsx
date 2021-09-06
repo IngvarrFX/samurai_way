@@ -1,21 +1,21 @@
 import React from 'react';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { store} from './redux/reduxStore';
+import {store} from './redux/reduxStore';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
-import {StateType,  StoreType} from './redux/state';
+import {StateType, StoreType} from './redux/state';
+import {Provider} from "./StoreContext";
 
 
-let rerenderEntireTree = (state:StateType) => {
+let rerenderEntireTree = (state: StateType) => {
+
     ReactDOM.render(
         <BrowserRouter>
-            <App
-                state={state}
-                store={store}
-                /*updatePostText={store.updateNewPostText.bind(store)}*/
-            />
+            <Provider store={store}>
+                <App/>
+            </Provider>
         </BrowserRouter>,
         document.getElementById('root')
     );

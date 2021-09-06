@@ -1,10 +1,10 @@
-import { DialogsPageType, MessagePageType, MessageType} from './state';
+import {ActionsType, DialogsPageType, MessagePageType, MessageType} from './state';
 import {v1} from 'uuid';
 import {addPostActionCreator, updateNewPostTextActionCreator} from './dialogsReducer';
 
-export type ActionsType =
-    ReturnType<typeof addMessageActionCreator>
-    | ReturnType<typeof updateMessageActionCreator>
+// export type MessageActionType =
+//     ReturnType<typeof addMessageActionCreator>
+//     | ReturnType<typeof updateMessageActionCreator>
 
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'

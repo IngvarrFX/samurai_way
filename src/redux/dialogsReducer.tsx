@@ -1,11 +1,11 @@
-import {PostDataType, ProfilePageType} from './state';
+import {ActionsType, PostDataType, ProfilePageType} from './state';
 import {v1} from 'uuid';
 import {addMessageActionCreator, updateMessageActionCreator} from './messageReducer';
 
 
-export type ActionsType =
-     ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof updateNewPostTextActionCreator>
+// export type DialogsActionsType =
+//      ReturnType<typeof addPostActionCreator>
+//     | ReturnType<typeof updateNewPostTextActionCreator>
 
 
 const ADD_POST = 'ADD-POST'

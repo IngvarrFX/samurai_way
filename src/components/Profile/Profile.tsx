@@ -11,12 +11,12 @@ type ProfilePropsType = {
     store: Store
 }
 
-export const Profile = (props: ProfilePropsType) => {
+export const Profile = () => {
 
     return (
         <div className={style.profile}>
             <ProfileInfo/>
-            <MyPostsContainer store={props.store}/>
+            <MyPostsContainer/>
         </div>
     )
 }
