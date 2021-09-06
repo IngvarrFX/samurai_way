@@ -1,13 +1,9 @@
 import {v1} from 'uuid';
 import {
-    addPostActionCreator,
     dialogsReducer,
-    updateNewPostTextActionCreator
 } from './dialogsReducer';
 import {
-    addMessageActionCreator,
     messageReducer,
-    updateMessageActionCreator
 } from './messageReducer';
 
 
@@ -35,6 +31,8 @@ export type MessagePageType = {
 
 export type DialogsPageType = {
     dialogsData: Array<DialogsType>
+    messagesData: Array<MessageType>
+    newMessageText: string
 }
 
 export type ProfilePageType = {
@@ -45,7 +43,7 @@ export type ProfilePageType = {
 export type StateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
-    messagePage: MessagePageType
+
 }
 
 
@@ -54,13 +52,14 @@ export type StoreType = {
     callSubscriber: () => void
     subscribe: (abserver: () => void) => void
     getState: () => StateType
-    dispatch: (action: ActionsType) => void
+    /*dispatch: (action) => void*/
 }
 
-export type ActionsType =
+
+/*export type ActionsType =
     ReturnType<typeof addMessageActionCreator>
     | ReturnType<typeof updateMessageActionCreator> | ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof updateNewPostTextActionCreator>
+    | ReturnType<typeof updateNewPostTextActionCreator>*/
 
 
 export const store: StoreType = {
@@ -83,9 +82,7 @@ export const store: StoreType = {
                 {id: v1(), name: 'Sasha'},
                 {id: v1(), name: 'Andrey'},
                 {id: v1(), name: 'Igor'},
-            ]
-        },
-        messagePage: {
+            ],
             messagesData: [
                 {id: v1(), message: 'Hello', likesCount: 22},
                 {id: v1(), message: 'How is your learning?', likesCount: 36},
@@ -107,14 +104,14 @@ export const store: StoreType = {
         return this._state
     },
 
-    dispatch(action) {
+   /* dispatch(action) {
 
         this._state.profilePage = dialogsReducer(this._state.profilePage, action)
-        this._state.messagePage = messageReducer(this._state.messagePage, action)
+        this._state.dialogsPage = messageReducer(this._state.dialogsPage, action)
         this.callSubscriber()
 
 
-    }
+    }*/
 }
 
 

@@ -1,13 +1,8 @@
 import React, {ChangeEvent, RefObject} from 'react';
-import {NavLink} from 'react-router-dom';
 import style from './Dialogs.module.css'
 import {DialogItem} from './DialogItem/DialogItem';
 import {Messages} from './Messages/Messages';
-import {
-    addMessageActionCreator,
-    updateMessageActionCreator,
-} from '../../redux/messageReducer';
-import {ActionsType} from '../../redux/state';
+
 
 
 export type DialogNamesType = {
@@ -25,7 +20,8 @@ type DialogsPropsType = {
     newMessage: string
     dialogs: Array<DialogNamesType>
     messages: Array<MessagesType>
-    dispatch: (action: ActionsType) => void
+    addPost: () => void
+    updateMessage: (text: string) => void
 }
 
 export const Dialogs = (props: DialogsPropsType) => {
@@ -36,14 +32,10 @@ export const Dialogs = (props: DialogsPropsType) => {
     let newMessageElement: RefObject<HTMLTextAreaElement> = React.createRef()
 
     let addPostHandler = () => {
-        if (newMessageElement.current) {
-            props.dispatch(addMessageActionCreator())
-        }
+        props.addPost()
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        if (newMessageElement.current) {
-            props.dispatch(updateMessageActionCreator(newMessageElement.current.value))
-        }
+        props.updateMessage(e.currentTarget.value)
     }
 
     return (
@@ -53,7 +45,7 @@ export const Dialogs = (props: DialogsPropsType) => {
             </div>
             <div className={style.messages}>
                 {messagesElement}
-                <div>
+                <div className={style.textArea}>
                     <textarea ref={newMessageElement}
                               onChange={onChangeHandler}
                               value={props.newMessage}

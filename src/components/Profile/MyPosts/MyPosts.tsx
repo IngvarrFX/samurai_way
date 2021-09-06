@@ -2,10 +2,11 @@ import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from 'r
 import {Post} from './Post/Post';
 import style from './MyPosts.module.css'
 import {
+    ActionsType,
     addPostActionCreator,
     updateNewPostTextActionCreator,
 } from '../../../redux/dialogsReducer';
-import {ActionsType, PostDataType} from '../../../redux/state';
+import {PostDataType} from '../../../redux/state';
 
 
 export type MessagesPropsType = {
@@ -16,10 +17,10 @@ export type MessagesPropsType = {
 
 export type DataType = {
     data: Array<PostDataType>
-    /*addPost: () => void*/
     newPostText: string
-    /*updatePostText: (text: string) => void*/
     dispatch: (action: ActionsType) => void
+    addPost: () => void
+    updatePost:(text: string) => void
 }
 
 
@@ -31,13 +32,11 @@ export const MyPosts = (props: DataType) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
 
     const addPostHandler = () => {
-        props.dispatch(addPostActionCreator())
+        props.addPost()
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        if (newPostElement.current) {
-            props.dispatch(updateNewPostTextActionCreator(newPostElement.current.value))
-        }
+        props.updatePost(e.currentTarget.value)
     }
 
     return (

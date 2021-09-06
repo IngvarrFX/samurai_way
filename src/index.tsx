@@ -1,18 +1,19 @@
 import React from 'react';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {StateType, store,} from './redux/state';
+import { store} from './redux/reduxStore';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
+import {StateType,  StoreType} from './redux/state';
 
 
-let rerenderEntireTree = (state: StateType) => {
+let rerenderEntireTree = (state:StateType) => {
     ReactDOM.render(
         <BrowserRouter>
             <App
+                state={state}
                 store={store}
-                dispatch={store.dispatch.bind(store)}
                 /*updatePostText={store.updateNewPostText.bind(store)}*/
             />
         </BrowserRouter>,
