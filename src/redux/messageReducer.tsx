@@ -1,13 +1,12 @@
-import {ActionsType, DialogsPageType, MessagePageType, MessageType} from './state';
+import {DialogsPageType, MessageType} from './state';
 import {v1} from 'uuid';
-import {addPostActionCreator, updateNewPostTextActionCreator} from './dialogsReducer';
 
-// export type MessageActionType =
-//     ReturnType<typeof addMessageActionCreator>
-//     | ReturnType<typeof updateMessageActionCreator>
+export type ActionMessageReducerType =
+    ReturnType<typeof addMessageActionCreator>
+    | ReturnType<typeof updateMessageActionCreator>
 
-const ADD_MESSAGE = 'ADD-MESSAGE'
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
+export const ADD_MESSAGE = 'ADD-MESSAGE'
+export const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 
 const initialState: DialogsPageType = {
     dialogsData: [
@@ -29,23 +28,23 @@ const initialState: DialogsPageType = {
 }
 
 
-export const messageReducer = (state: DialogsPageType = initialState, action: ActionsType): DialogsPageType => {
+export const messageReducer = (state: DialogsPageType = initialState, action: ActionMessageReducerType): DialogsPageType => {
 
-    if (action.type === ADD_MESSAGE) {
-        const newMessage: MessageType = {
-            id: v1(),
-            message: state.newMessageText,
-            likesCount: 0
-        }
-        state.messagesData.push(newMessage)
-        state.newMessageText = '';
-        return state
-
-    } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
-        if (action.newMessageBody != null) {
-            state.newMessageText = action.newMessageBody;
-        }
-        return state
+    switch (action.type) {
+        case ADD_MESSAGE:
+            const newMessage: MessageType = {
+                id: v1(),
+                message: state.newMessageText,
+                likesCount: 0
+            }
+            state.messagesData.push(newMessage)
+            state.newMessageText = '';
+            return state
+        case "UPDATE-NEW-MESSAGE-TEXT":
+            if (action.newMessageBody != null) {
+                state.newMessageText = action.newMessageBody;
+            }
+            return state
     }
 
     return state
