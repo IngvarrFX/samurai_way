@@ -9,19 +9,18 @@ import {
 } from './messageReducer';
 
 
-
-export type MessageType = {
+type MessageType = {
     id: string
     message: string
     likesCount: number
 }
 
-export type DialogsType = {
+type DialogsType = {
     id: string
     name: string
 }
 
-export type PostDataType = {
+type PostDataType = {
     id: string
     message: string
     likesCount: number
@@ -32,25 +31,25 @@ export type MessagePageType = {
     newMessageText: string
 }
 
-export type DialogsPageType = {
+type DialogsPageType = {
     dialogsData: Array<DialogsType>
     messagesData: Array<MessageType>
     newMessageText: string
 }
 
-export type ProfilePageType = {
+type ProfilePageType = {
     postsData: Array<PostDataType>
     newPostText: string
 }
 
-export type StateType = {
+type StateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 
 }
 
 
-export type StoreType = {
+type StoreType = {
     _state: StateType
     callSubscriber: () => void
     subscribe: (abserver: () => void) => void

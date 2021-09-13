@@ -1,5 +1,4 @@
 import React from 'react';
-import {StoreType} from "./redux/state";
 import {Store} from "redux";
 
 

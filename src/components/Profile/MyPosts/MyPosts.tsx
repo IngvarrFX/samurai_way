@@ -4,9 +4,10 @@ import style from './MyPosts.module.css'
 import {
 
     addPostActionCreator,
+    PostDataType,
     updateNewPostTextActionCreator,
 } from '../../../redux/dialogsReducer';
-import {PostDataType} from '../../../redux/state';
+
 
 
 export type MessagesPropsType = {

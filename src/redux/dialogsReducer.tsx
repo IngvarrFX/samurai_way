@@ -1,4 +1,3 @@
-import {PostDataType, ProfilePageType} from './state';
 import {v1} from 'uuid';
 
 
@@ -10,6 +9,18 @@ export type ActionDialogsReducerType =
     ReturnType<typeof addPostActionCreator>
     | ReturnType<typeof updateNewPostTextActionCreator>
 
+
+export type PostDataType = {
+    id: string
+    message: string
+    likesCount: number
+}
+
+
+export type ProfilePageType = {
+    postsData: Array<PostDataType>
+    newPostText: string
+}
 
 const initialState: ProfilePageType = {
     postsData: [
@@ -25,20 +36,25 @@ const initialState: ProfilePageType = {
 export const dialogsReducer = (state: ProfilePageType = initialState, action: ActionDialogsReducerType): ProfilePageType => {
 
     switch (action.type) {
-        case "ADD-POST":
-            const newPost: PostDataType = {
-                id: v1(),
-                message: state.newPostText,
-                likesCount: 0
+        case "ADD-POST": {
+            let copyState = {...state}
+            copyState = {
+                ...copyState, postsData: [...copyState.postsData, {
+                    id: v1(),
+                    message: state.newPostText,
+                    likesCount: 0
+                }]
             }
-            state.postsData.push(newPost)
-            state.newPostText = '';
-            return state
-        case "UPDATE-NEW-POST-TEXT":
+            copyState.newPostText = '';
+            return copyState
+        }
+        case "UPDATE-NEW-POST-TEXT": {
+            let copyState = {...state}
             if (action.newText != null) {
-                state.newPostText = action.newText;
+                copyState.newPostText = action.newText;
             }
-            return state
+            return copyState
+        }
     }
 
     return state

@@ -4,15 +4,15 @@ import {messageReducer} from './messageReducer';
 
 
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     profilePage : dialogsReducer,
     dialogsPage : messageReducer
 })
 
-type ReducersType = typeof reducers
+export type ReducersType = typeof rootReducer
 export type AppStateType = ReturnType<ReducersType>
 
 
 
-export let store = createStore(reducers);
+export let store = createStore(rootReducer);
 

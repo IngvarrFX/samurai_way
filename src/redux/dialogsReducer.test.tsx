@@ -1,6 +1,5 @@
 import {DialogsPageType, ProfilePageType} from "./state";
 import {v1} from "uuid";
-import {ActionMessageReducerType, addMessageActionCreator, messageReducer} from "./messageReducer";
 import {
     ActionDialogsReducerType,
     addPostActionCreator,

@@ -1,5 +1,5 @@
-import {DialogsPageType, MessageType} from './state';
 import {v1} from 'uuid';
+
 
 export type ActionMessageReducerType =
     ReturnType<typeof addMessageActionCreator>
@@ -7,6 +7,24 @@ export type ActionMessageReducerType =
 
 export const ADD_MESSAGE = 'ADD-MESSAGE'
 export const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
+
+export type MessageType = {
+    id: string
+    message: string
+    likesCount: number
+}
+
+
+export type DialogsType = {
+    id: string
+    name: string
+}
+
+export type DialogsPageType = {
+    dialogsData: Array<DialogsType>
+    messagesData: Array<MessageType>
+    newMessageText: string
+}
 
 const initialState: DialogsPageType = {
     dialogsData: [
@@ -29,22 +47,28 @@ const initialState: DialogsPageType = {
 
 
 export const messageReducer = (state: DialogsPageType = initialState, action: ActionMessageReducerType): DialogsPageType => {
-
     switch (action.type) {
-        case ADD_MESSAGE:
-            const newMessage: MessageType = {
-                id: v1(),
-                message: state.newMessageText,
-                likesCount: 0
+        case ADD_MESSAGE: {
+            let copyState = {...state}
+            copyState = {
+                ...copyState, messagesData: [...copyState.messagesData, {
+                    id: v1(),
+                    message: copyState.newMessageText,
+                    likesCount: 0
+                }]
             }
-            state.messagesData.push(newMessage)
-            state.newMessageText = '';
-            return state
-        case "UPDATE-NEW-MESSAGE-TEXT":
+            copyState.newMessageText = '';
+            return copyState
+        }
+
+        case "UPDATE-NEW-MESSAGE-TEXT": {
+            let copyState = {...state}
             if (action.newMessageBody != null) {
-                state.newMessageText = action.newMessageBody;
+                copyState.newMessageText = action.newMessageBody;
             }
-            return state
+            return copyState
+        }
+
     }
 
     return state
