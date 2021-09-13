@@ -34,10 +34,9 @@ const initialState: ProfilePageType = {
 
 
 export const dialogsReducer = (state: ProfilePageType = initialState, action: ActionDialogsReducerType): ProfilePageType => {
-
+    let copyState = {...state}
     switch (action.type) {
         case "ADD-POST": {
-            let copyState = {...state}
             copyState = {
                 ...copyState, postsData: [...copyState.postsData, {
                     id: v1(),
@@ -49,7 +48,6 @@ export const dialogsReducer = (state: ProfilePageType = initialState, action: Ac
             return copyState
         }
         case "UPDATE-NEW-POST-TEXT": {
-            let copyState = {...state}
             if (action.newText != null) {
                 copyState.newPostText = action.newText;
             }

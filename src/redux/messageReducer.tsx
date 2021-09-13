@@ -47,9 +47,9 @@ const initialState: DialogsPageType = {
 
 
 export const messageReducer = (state: DialogsPageType = initialState, action: ActionMessageReducerType): DialogsPageType => {
+    let copyState = {...state}
     switch (action.type) {
         case ADD_MESSAGE: {
-            let copyState = {...state}
             copyState = {
                 ...copyState, messagesData: [...copyState.messagesData, {
                     id: v1(),
@@ -62,7 +62,6 @@ export const messageReducer = (state: DialogsPageType = initialState, action: Ac
         }
 
         case "UPDATE-NEW-MESSAGE-TEXT": {
-            let copyState = {...state}
             if (action.newMessageBody != null) {
                 copyState.newMessageText = action.newMessageBody;
             }
