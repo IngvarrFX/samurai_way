@@ -34,24 +34,23 @@ const initialState: ProfilePageType = {
 
 
 export const dialogsReducer = (state: ProfilePageType = initialState, action: ActionDialogsReducerType): ProfilePageType => {
-    let copyState = {...state}
     switch (action.type) {
         case "ADD-POST": {
-            copyState = {
-                ...copyState, postsData: [...copyState.postsData, {
+            return {
+                ...state, newPostText: '', postsData: [{
                     id: v1(),
                     message: state.newPostText,
                     likesCount: 0
-                }]
+                }, ...state.postsData,
+
+                ]
             }
-            copyState.newPostText = '';
-            return copyState
         }
         case "UPDATE-NEW-POST-TEXT": {
             if (action.newText != null) {
-                copyState.newPostText = action.newText;
+                return {...state, newPostText: action.newText};
             }
-            return copyState
+
         }
     }
 
@@ -61,7 +60,7 @@ export const dialogsReducer = (state: ProfilePageType = initialState, action: Ac
 type AddPostActionCreatorType = {
     type: typeof ADD_POST
 }
-export const addPostActionCreator = (): AddPostActionCreatorType => ({type: ADD_POST} as const)
+export const addPostActionCreator = (): AddPostActionCreatorType => ({type: ADD_POST})
 
 
 type UpdateNewPostTextActionCreatorType = {
@@ -69,5 +68,5 @@ type UpdateNewPostTextActionCreatorType = {
     newText: string
 }
 export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionCreatorType => (
-    {type: UPDATE_NEW_POST_TEXT, newText: text} as const
+    {type: UPDATE_NEW_POST_TEXT, newText: text}
 )
