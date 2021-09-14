@@ -19,46 +19,46 @@ export type InitialStateType = {
 
 const initialState: InitialStateType = {
     users: [
-        {
-            id: v1(),
-            firstName: 'Ingvarr',
-            status: '"I am a boss"',
-            follow: true,
-            location: {country: "Canada", city: "Toronto"},
-            photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-        },
-        {
-            id: v1(),
-            firstName: 'Oxi',
-            status: '"I am a boss too"',
-            follow: true,
-            location: {country: "Canada", city: "Toronto"},
-            photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-
-        },
-        {
-            id: v1(),
-            firstName: 'Andrew',
-            status: '"I am a not boss"',
-            follow: false,
-            location: {country: "Russia", city: "Astrahan"},
-            photoUser:'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-
-        },
-        {
-            id: v1(),
-            firstName: 'Ando',
-            status: '"I am a traner"',
-            follow: false,
-            location: {country: "Russia", city: "Vladimir"},
-            photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-
-        },
+        // {
+        //     id: v1(),
+        //     firstName: 'Ingvarr',
+        //     status: '"I am a boss"',
+        //     follow: true,
+        //     location: {country: "Canada", city: "Toronto"},
+        //     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
+        // },
+        // {
+        //     id: v1(),
+        //     firstName: 'Oxi',
+        //     status: '"I am a boss too"',
+        //     follow: true,
+        //     location: {country: "Canada", city: "Toronto"},
+        //     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
+        //
+        // },
+        // {
+        //     id: v1(),
+        //     firstName: 'Andrew',
+        //     status: '"I am a not boss"',
+        //     follow: false,
+        //     location: {country: "Russia", city: "Astrahan"},
+        //     photoUser:'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
+        //
+        // },
+        // {
+        //     id: v1(),
+        //     firstName: 'Ando',
+        //     status: '"I am a traner"',
+        //     follow: false,
+        //     location: {country: "Russia", city: "Vladimir"},
+        //     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
+        //
+        // },
     ]
 }
 
 
-type ActionType = FollowACType | UnFollowACType | SetUsersACType
+type ActionType = FollowACType | unfollowACType | SetUsersACType
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
@@ -69,7 +69,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
             return {...state, users: state.users.map(u => u.id === action.userId ? {...u, follow: false} : u)}
         }
         case SET_USERS: {
-            return {...state, users: [...state.users]}
+            return {...state, users: [...state.users, ...action.users]}
         }
     }
     return state
@@ -84,11 +84,11 @@ type FollowACType = {
 export const followAC = (userId: string): FollowACType => ({type: FOLLOW, userId})
 
 
-type UnFollowACType = {
+type unfollowACType = {
     type: typeof UNFOLLOW
     userId: string
 }
-export const unFollowAC = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId})
+export const unfollowAC = (userId: string): unfollowACType => ({type: UNFOLLOW, userId})
 
 
 type SetUsersACType = {
