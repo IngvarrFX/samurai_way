@@ -1,8 +1,12 @@
-import {v1} from "uuid";
+import {v1} from 'uuid';
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
+const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT'
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+
+
 export type UserType = {
     id: string
     firstName?: string
@@ -11,57 +15,35 @@ export type UserType = {
     follow: boolean
     location: { country: string, city: string }
     photoUser?: string
-    photos: { small: string,
-        large: string }
+    photos: {
+        small: string,
+        large: string
+    }
 }
 
 export type InitialStateType = {
     users: Array<UserType>
+    totalCount: number
+    pageCount: number
+    count: number
+    currentPage: number
 }
 
 
 const initialState: InitialStateType = {
-    users: [
-        // {
-        //     id: v1(),
-        //     firstName: 'Ingvarr',
-        //     status: '"I am a boss"',
-        //     follow: true,
-        //     location: {country: "Canada", city: "Toronto"},
-        //     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-        // },
-        // {
-        //     id: v1(),
-        //     firstName: 'Oxi',
-        //     status: '"I am a boss too"',
-        //     follow: true,
-        //     location: {country: "Canada", city: "Toronto"},
-        //     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-        //
-        // },
-        // {
-        //     id: v1(),
-        //     firstName: 'Andrew',
-        //     status: '"I am a not boss"',
-        //     follow: false,
-        //     location: {country: "Russia", city: "Astrahan"},
-        //     photoUser:'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-        //
-        // },
-        // {
-        //     id: v1(),
-        //     firstName: 'Ando',
-        //     status: '"I am a traner"',
-        //     follow: false,
-        //     location: {country: "Russia", city: "Vladimir"},
-        //     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-        //
-        // },
-    ]
+    users: [],
+    pageCount: 5,
+    count: 30,
+    totalCount: 0,
+    currentPage: 1,
 }
 
 
-type ActionType = FollowACType | unfollowACType | SetUsersACType
+type ActionType = FollowACType
+    | unfollowACType
+    | SetUsersACType
+    | SetTotalCountACType
+    | SetCurrentPageACType
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
@@ -74,8 +56,15 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
         case SET_USERS: {
             return {...state, users: [...state.users, ...action.users]}
         }
+        case SET_TOTAL_COUNT: {
+            return {...state, totalCount: action.totalCount}
+        }
+        case SET_CURRENT_PAGE:{
+            return{...state, currentPage: action.currentPage}
+        }
+        default: return state
     }
-    return state
+
 }
 
 
@@ -101,3 +90,15 @@ type SetUsersACType = {
 export const setUsersAC = (users: UserType[]): SetUsersACType => ({type: SET_USERS, users})
 
 
+type SetTotalCountACType = {
+    type: typeof SET_TOTAL_COUNT
+    totalCount: number
+}
+export const setTotalCountAC = (totalCount: number): SetTotalCountACType => ({type: SET_TOTAL_COUNT, totalCount})
+
+
+type SetCurrentPageACType = {
+    type: typeof SET_CURRENT_PAGE
+    currentPage: number
+}
+export const setCurrentPageAC = (currentPage: number): SetCurrentPageACType => ({type: SET_CURRENT_PAGE, currentPage})
