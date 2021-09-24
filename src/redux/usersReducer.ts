@@ -33,7 +33,7 @@ export type InitialStateType = {
 const initialState: InitialStateType = {
     users: [],
     pageCount: 5,
-    count: 30,
+    count: 5,
     totalCount: 0,
     currentPage: 1,
 }
@@ -54,7 +54,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
             return {...state, users: state.users.map(u => u.id === action.userId ? {...u, follow: false} : u)}
         }
         case SET_USERS: {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: [...action.users]}
         }
         case SET_TOTAL_COUNT: {
             return {...state, totalCount: action.totalCount}
