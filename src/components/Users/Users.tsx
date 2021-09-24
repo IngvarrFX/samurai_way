@@ -1,98 +1,56 @@
-import React from 'react'
-import {UserType} from '../../redux/usersReducer';
-import styles from './Users.module.css'
-import {v1} from 'uuid';
-import axios from 'axios'
-import userPhoto from '../../../src/assets/images/avatarDefault.png'
+import React from "react";
+import styles from "./Users.module.css";
+import userPhoto from "../../assets/images/avatarDefault.png";
+import {UserType} from "../../redux/usersReducer";
 
 type UsersPropsType = {
     users: UserType[]
+    pageCount: number
+    totalCount: number
+    currentPage: number
     follow: (userId: string) => void
     unfollow: (userId: string) => void
-    setUsers: (users: UserType[]) => void
+    onSetPage: (pageNumber: number)=> void
 }
 
-export const Users = (props: UsersPropsType) => {
 
-    const getUsers = () => {
-        if (props.users.length === 0) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-                props.setUsers(response.data.items)
-            })
+export const Users = (props:UsersPropsType) => {
 
-        }
-
-        /* props.setUsers([
-                 {
-                     id: v1(),
-                     firstName: 'Ingvarr',
-                     status: '"I am a boss"',
-                     follow: true,
-                     location: {country: "Canada", city: "Toronto"},
-                     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-                 },
-                 {
-                     id: v1(),
-                     firstName: 'Oxi',
-                     status: '"I am a boss too"',
-                     follow: true,
-                     location: {country: "Canada", city: "Toronto"},
-                     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-
-                 },
-                 {
-                     id: v1(),
-                     firstName: 'Andrew',
-                     status: '"I am a not boss"',
-                     follow: false,
-                     location: {country: "Russia", city: "Astrahan"},
-                     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-
-                 },
-                 {
-                     id: v1(),
-                     firstName: 'Ando',
-                     status: '"I am a traner"',
-                     follow: false,
-                     location: {country: "Russia", city: "Vladimir"},
-                     photoUser: 'https://nakedsecurity.sophos.com/wp-content/uploads/sites/2/2013/08/facebook-silhouette_thumb.jpg'
-
-                 }
-             ]*/
-
+    let pagesC = Math.ceil(props.totalCount / props.pageCount)
+    let pages = []
+    for (let i = 1; i <= pagesC; i++) {
+        pages.push(i)
     }
+    return(
+        <div>
+            <div>
+                {pages.map((p, index) => {
 
-    const onClickHandler = (userId: string, follow: boolean) => {
-        if (follow) {
-            props.unfollow(userId)
-        } else {
-            props.follow(userId)
-        }
-    }
-
-
-    return (
-        <>
-            {props.users.length === 0
-                ?
-
-                <button onClick={getUsers}>Get users</button>
-                :
-                <ul>
-                    {props.users.map(u => {
-                        return <div>
+                    return <span key={index} onClick={() => {props.onSetPage(p)}} className={props.currentPage === p ? styles.selectedPage: ''}> {p} </span>
+                })}
+            </div>
+            <ul>
+                {props.users.map(u => {
+                    return <div key={u.id}>
                     <span>
                         <div>
-                            {/*<img src={u.photoUser} className={styles.photo} alt="avatar"/>*/}
                             <img src={u.photos.small !== null ? u.photos.small : userPhoto} className={styles.photo}
                                  alt="avatar"/>
                         </div>
                         <div>
-                            <button
-                                onClick={() => onClickHandler(u.id, u.follow)}>{u.follow ? 'UNFOLLOW' : 'FOLLOW'}</button>
+                            {u.follow
+                                ?
+                                <button onClick={() => {
+                                    props.unfollow(u.id)
+                                }}>Unfollow</button>
+                                :
+                                <button onClick={() => {
+                                    props.follow(u.id)
+                                }}>Follow</button>
+                            }
                         </div>
                     </span>
-                            <span>
+                        <span>
                         <span>
                             <div>{u.name}</div>
                             <div>{u.status}</div>
@@ -103,11 +61,10 @@ export const Users = (props: UsersPropsType) => {
                         </span>
                     </span>
 
-                        </div>
-                    })
-                    }
-                </ul>
-            }
-        </>
+                    </div>
+                })
+                }
+            </ul>
+        </div>
     )
 }
