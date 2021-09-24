@@ -1,7 +1,7 @@
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
-const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT'
+const SET_TOTAL_USERS = 'SET_TOTAL_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 
 
@@ -21,8 +21,7 @@ export type UserType = {
 
 export type InitialStateType = {
     users: Array<UserType>
-    totalCount: number
-    pageCount: number
+    totalUsers: number
     count: number
     currentPage: number
 }
@@ -30,9 +29,8 @@ export type InitialStateType = {
 
 const initialState: InitialStateType = {
     users: [],
-    pageCount: 5,
     count: 5,
-    totalCount: 0,
+    totalUsers: 0,
     currentPage: 1,
 }
 
@@ -40,7 +38,7 @@ const initialState: InitialStateType = {
 type ActionType = FollowACType
     | unfollowACType
     | SetUsersACType
-    | SetTotalCountACType
+    | SetTotalUsersACType
     | SetCurrentPageACType
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
@@ -54,8 +52,8 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
         case SET_USERS: {
             return {...state, users: [...action.users]}
         }
-        case SET_TOTAL_COUNT: {
-            return {...state, totalCount: action.totalCount}
+        case SET_TOTAL_USERS: {
+            return {...state, totalUsers: action.totalUsers}
         }
         case SET_CURRENT_PAGE:{
             return{...state, currentPage: action.currentPage}
@@ -88,11 +86,11 @@ type SetUsersACType = {
 export const setUsersAC = (users: UserType[]): SetUsersACType => ({type: SET_USERS, users})
 
 
-type SetTotalCountACType = {
-    type: typeof SET_TOTAL_COUNT
-    totalCount: number
+type SetTotalUsersACType = {
+    type: typeof SET_TOTAL_USERS
+    totalUsers: number
 }
-export const setTotalCountAC = (totalCount: number): SetTotalCountACType => ({type: SET_TOTAL_COUNT, totalCount})
+export const setTotalUsersAC = (totalUsers: number): SetTotalUsersACType => ({type: SET_TOTAL_USERS, totalUsers})
 
 
 type SetCurrentPageACType = {

@@ -1,7 +1,7 @@
 import React from "react"
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
-import {followAC, setCurrentPageAC, setTotalCountAC, setUsersAC, unfollowAC, UserType} from "../../redux/usersReducer";
+import {followAC, setCurrentPageAC, setTotalUsersAC, setUsersAC, unfollowAC, UserType} from "../../redux/usersReducer";
 import {Dispatch} from "redux";
 import axios from "axios";
 import {Users} from "./Users";
@@ -9,14 +9,13 @@ import {Users} from "./Users";
 
 type UsersContainerPropsType = {
     users: UserType[]
-    pageCount: number
-    totalCount: number
+    totalUsers: number
     currentPage: number
     count: number
     follow: (userId: string) => void
     unfollow: (userId: string) => void
     setUsers: (users: UserType[]) => void
-    setTotalCount: (totalCount: number) => void
+    setTotalUsers: (totalUsers: number) => void
     setCurrentPage: (currentPage: number)=> void
 }
 
@@ -25,7 +24,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
     componentDidMount() {
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.count}`).then(response => {
             this.props.setUsers(response.data.items)
-            this.props.setTotalCount(response.data.totalCount)
+            this.props.setTotalUsers(response.data.totalCount)
         })
     }
 
@@ -39,18 +38,11 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
 
 
     render() {
-
-        /*
-                let pagesC = Math.ceil(this.props.totalCount / this.props.pageCount)
-                let pages = []
-                for (let i = 1; i <= pagesC; i++) {
-                    pages.push(i)
-                }*/
         return (
             <Users
                 users={this.props.users}
-                pageCount={this.props.pageCount}
-                totalCount={this.props.totalCount}
+                count={this.props.count}
+                totalUsers={this.props.totalUsers}
                 currentPage={this.props.currentPage}
                 follow={this.props.follow}
                 unfollow={this.props.unfollow}
@@ -65,8 +57,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
 
 type MapStateToPropsType = {
     users: UserType[]
-    pageCount: number
-    totalCount: number
+    totalUsers: number
     currentPage: number
     count: number
 }
@@ -74,8 +65,7 @@ type MapStateToPropsType = {
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         users: state.usersPage.users,
-        pageCount: state.usersPage.pageCount,
-        totalCount: state.usersPage.totalCount,
+        totalUsers: state.usersPage.totalUsers,
         currentPage: state.usersPage.currentPage,
         count: state.usersPage.count,
     }
@@ -85,7 +75,7 @@ type MapDispatchToPropsType = {
     follow: (userId: string) => void
     unfollow: (userId: string) => void
     setUsers: (users: Array<UserType>) => void
-    setTotalCount: (totalCount: number) => void
+    setTotalUsers: (totalUsers: number) => void
     setCurrentPage: (currentPage: number) => void
 }
 
@@ -100,8 +90,8 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
         setUsers: (users: Array<UserType>) => {
             dispatch(setUsersAC(users))
         },
-        setTotalCount: (totalCount: number) => {
-            dispatch(setTotalCountAC(totalCount))
+        setTotalUsers: (totalUsers: number) => {
+            dispatch(setTotalUsersAC(totalUsers))
         },
         setCurrentPage: (currentPage: number) => {
             dispatch(setCurrentPageAC(currentPage))

@@ -5,8 +5,8 @@ import {UserType} from "../../redux/usersReducer";
 
 type UsersPropsType = {
     users: UserType[]
-    pageCount: number
-    totalCount: number
+    count: number
+    totalUsers: number
     currentPage: number
     follow: (userId: string) => void
     unfollow: (userId: string) => void
@@ -16,9 +16,9 @@ type UsersPropsType = {
 
 export const Users = (props:UsersPropsType) => {
 
-    let pagesC = Math.ceil(props.totalCount / props.pageCount)
+    let pagesWithUsers = Math.ceil(props.totalUsers / props.count)
     let pages = []
-    for (let i = 1; i <= pagesC; i++) {
+    for (let i = 1; i <= pagesWithUsers; i++) {
         pages.push(i)
     }
     return(
