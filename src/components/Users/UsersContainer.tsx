@@ -16,19 +16,28 @@ import {Users} from "./Users";
 import {Preloader} from "../../common/preloader/Preloader";
 
 
-type UsersContainerPropsType = {
+type MapStateToPropsType = {
     users: UserType[]
     totalUsers: number
     currentPage: number
     count: number
     isFetching: boolean
+}
+
+type MapDispatchToPropsType = {
     follow: (userId: string) => void
     unfollow: (userId: string) => void
-    setUsers: (users: UserType[]) => void
+    setUsers: (users: Array<UserType>) => void
     setTotalUsers: (totalUsers: number) => void
     setCurrentPage: (currentPage: number) => void
     setIsFetching: (isFetching: boolean) => void
 }
+
+type OwnPropsType = {
+
+}
+
+type UsersContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
@@ -71,13 +80,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
 }
 
 
-type MapStateToPropsType = {
-    users: UserType[]
-    totalUsers: number
-    currentPage: number
-    count: number
-    isFetching: boolean
-}
+
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
@@ -89,14 +92,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-type MapDispatchToPropsType = {
-    follow: (userId: string) => void
-    unfollow: (userId: string) => void
-    setUsers: (users: Array<UserType>) => void
-    setTotalUsers: (totalUsers: number) => void
-    setCurrentPage: (currentPage: number) => void
-    setIsFetching: (isFetching: boolean) => void
-}
+
 
 
 
@@ -123,4 +119,5 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     }
 }
 
-export const UsersContainerComponent = connect(mapStateToProps,mapDispatchToProps)(UsersContainer)
+
+export const UsersContainerComponent = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps,mapDispatchToProps)(UsersContainer)

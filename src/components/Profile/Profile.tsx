@@ -1,19 +1,20 @@
-import React from 'react';
-import style from './Profile.module.css'
-import {ProfileInfo} from './ProfileInfo/ProfileInfo';
-import {Store} from 'redux';
-import {MyPostsContainer} from './MyPosts/MyPostsContainer';
+import React from "react";
+import style from "./Profile.module.css"
+import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
+import {ProfileUserType} from "../../redux/messageReducer";
 
 
 type ProfilePropsType = {
-    store: Store
+    //store: Store
+    profile: ProfileUserType
 }
 
-export const Profile = () => {
+export const Profile = (props: ProfilePropsType) => {
 
     return (
         <div className={style.profile}>
-            <ProfileInfo/>
+            <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
         </div>
     )
