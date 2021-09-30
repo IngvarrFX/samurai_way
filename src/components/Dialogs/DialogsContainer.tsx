@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    addMessageActionCreator, DialogsPageType, DialogsType, MessageType,
+    addMessageActionCreator, InitialStateType, DialogsType, MessageType,
     updateMessageActionCreator,
 } from '../../redux/messageReducer';
 import {Dialogs} from './Dialogs';

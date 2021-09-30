@@ -1,29 +1,40 @@
 import React from "react";
 import {Dispatch} from "redux";
 import {connect} from "react-redux";
-import {ProfileUserType, setProfileAC} from "../../redux/messageReducer";
+import {ProfileType, setProfileAC} from "../../redux/messageReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import axios from "axios";
 import {Profile} from "./Profile";
+import { withRouter,RouteComponentProps } from "react-router";
 
+
+
+type PathParamsType = {
+    userId: string
+}
+
+
+type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 
 type MapStateToPropsType = {
-    profile: ProfileUserType
+    profile: ProfileType | null
 }
 
 type MapDispatchToPropsType = {
-    setProfile: (profile: ProfileUserType) => void
+    setProfile: (profile: ProfileType) => void
 }
 
 type OwnProfileContainerPropsType = {}
 
 
-type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnProfileContainerPropsType
+type OwnPropsType = MapStateToPropsType & MapDispatchToPropsType & OwnProfileContainerPropsType
 
 class ProfileContainer extends React.Component<PropsType> {
-
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2`).then(response => {
+        let userId = this.props.match.params.userId
+        if(!userId) userId =`2`
+        console.log(userId)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId).then(response => {
             console.log(response.data)
             this.props.setProfile(response.data)
         })
@@ -46,10 +57,13 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
-        setProfile: (profile: ProfileUserType) => {
+        setProfile: (profile: ProfileType) => {
             dispatch(setProfileAC(profile))
         }
     }
 }
 
-export const ProfileContainerComponent = connect(mapStateToProps, mapDispatchToProps)(ProfileContainer)
+let WithUrlDataContainerComponent =   withRouter(ProfileContainer)
+
+
+export const ProfileContainerComponent = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataContainerComponent)
