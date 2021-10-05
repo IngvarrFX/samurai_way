@@ -1,8 +1,7 @@
-import React, {ChangeEvent, RefObject} from 'react';
-import style from './Dialogs.module.css'
-import {DialogItem} from './DialogItem/DialogItem';
-import {Messages} from './Messages/Messages';
-
+import React, {ChangeEvent, RefObject} from "react";
+import style from "./Dialogs.module.css"
+import {DialogItem} from "./DialogItem/DialogItem";
+import {Messages} from "./Messages/Messages";
 
 
 export type DialogNamesType = {
@@ -38,6 +37,8 @@ export const Dialogs = (props: DialogsPropsType) => {
         props.updateMessage(e.currentTarget.value)
     }
 
+
+
     return (
         <div className={style.dialogs}>
             <div className={style.dialogsItem}>
@@ -54,6 +55,8 @@ export const Dialogs = (props: DialogsPropsType) => {
                 </div>
                 <div>
                     <button onClick={addPostHandler}>Send message</button>
+                </div>
+                <div>
                 </div>
             </div>
 
