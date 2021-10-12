@@ -3,7 +3,6 @@ import styles from "./Users.module.css";
 import userPhoto from "../../assets/images/avatarDefault.png";
 import {UserType} from "../../redux/usersReducer";
 import {NavLink} from "react-router-dom";
-import {followedAPI} from "../../api/api";
 
 type UsersPropsType = {
     users: UserType[]
@@ -49,25 +48,11 @@ export const Users = (props: UsersPropsType) => {
                             {u.followed
                                 ?
                                 <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                    props.toggleIsFollowing(true, u.id)
-                                    followedAPI.unFollowed(u.id)
-                                        .then(data => {
-                                            if (data.resultCode == 0) {
-                                                props.unfollow(u.id)
-                                            }
-                                            props.toggleIsFollowing(false, u.id)
-                                        })
+                                    props.unfollow(u.id)
                                 }}>Unfollow</button>
                                 :
                                 <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                    props.toggleIsFollowing(true, u.id)
-                                    followedAPI.followed(u.id)
-                                        .then(data => {
-                                            if (data.resultCode == 0) {
-                                                props.follow(u.id)
-                                            }
-                                            props.toggleIsFollowing(false, u.id)
-                                        })
+                                    props.follow(u.id)
                                 }}>Follow</button>
                             }
                         </div>

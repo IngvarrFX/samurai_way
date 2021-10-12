@@ -1,3 +1,9 @@
+import {profileAPI, setUserDataAPI} from "../api/api";
+import {toggleIsFetchingAC} from "./usersReducer";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./reduxStore";
+import {AnyAction} from "redux";
+
 const SET_USER_DATA = "SET_USER_DATA"
 const SET_USER_PROFILE_DATA = "SET_USER_PROFILE_DATA"
 
@@ -33,7 +39,6 @@ export type UserType = {
 } | null
 
 
-
 const initialState: InitialStateType = {
     id: null as number | null,
     email: null as string | null,
@@ -49,7 +54,7 @@ export const authReducer = (state = initialState, action: ActionType): InitialSt
         case SET_USER_DATA: {
             return {...state, id: action.userID, email: action.email, login: action.login, isAuth: true}
         }
-        case SET_USER_PROFILE_DATA:{
+        case SET_USER_PROFILE_DATA: {
             return {
                 ...state, user: action.profileData
             }
@@ -81,3 +86,25 @@ export const setUserProfileDataAC = (profileData: UserType): SetUserProfileDataA
     type: SET_USER_PROFILE_DATA,
     profileData
 })
+
+
+export type ThunkActionType = ThunkAction<void, AppStateType, unknown, ActionType>
+type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
+
+export const setUserDataThunk = (): ThunkActionType => (dispatch: DispatchType) => {
+    dispatch(toggleIsFetchingAC(true))
+    setUserDataAPI.setUserData()
+        .then((response) => {
+            if (response.data.resultCode === 0) {
+                let {id, email, login} = response.data.data
+                dispatch(setUserDataAC(id, email, login))
+            }
+            return response.data.data.id
+        })
+        .then((userID) => {
+            profileAPI.getProfile(userID)
+                .then((data) => {
+                    dispatch(setUserProfileDataAC(data.data))
+                })
+        })
+}

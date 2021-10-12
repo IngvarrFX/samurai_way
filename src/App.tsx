@@ -3,9 +3,9 @@ import "./App.css";
 import {NavBar} from "./components/NavBar/NavBar";
 import {BrowserRouter, Route} from "react-router-dom";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {UsersContainerComponent} from "./components/Users/UsersContainer";
-import {ProfileContainerComponent} from "./components/Profile/ProfileContainer";
-import {HeaderContainerComponent} from "./components/Header/HeaderContainer";
+import UsersContainerComponent from "./components/Users/UsersContainer";
+import ProfileContainerComponent from "./components/Profile/ProfileContainer";
+import HeaderContainerComponent from "./components/Header/HeaderContainer";
 
 
 const App = () => {

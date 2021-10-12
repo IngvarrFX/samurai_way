@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
 import {
-    addMessageActionCreator, InitialStateType, DialogsType, MessageType,
+    addMessageActionCreator,
+    DialogsType,
+    MessageType,
     updateMessageActionCreator,
-} from '../../redux/messageReducer';
-import {Dialogs} from './Dialogs';
-import {Dispatch, Store} from 'redux';
+} from "../../redux/messageReducer";
+import {Dialogs} from "./Dialogs";
+import {Dispatch, Store} from "redux";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
 

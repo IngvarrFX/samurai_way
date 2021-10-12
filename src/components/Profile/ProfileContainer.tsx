@@ -1,11 +1,11 @@
 import React from "react";
-import {Dispatch} from "redux";
+import {compose} from "redux";
 import {connect} from "react-redux";
-import {ProfileType, setProfileAC} from "../../redux/messageReducer";
+import {ProfileType} from "../../redux/messageReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import {Profile} from "./Profile";
 import {RouteComponentProps, withRouter} from "react-router";
-import {profileAPI} from "../../api/api";
+import {setProfileThunk} from "../../redux/usersReducer";
 
 
 type PathParamsType = {
@@ -13,29 +13,23 @@ type PathParamsType = {
 }
 
 
-type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
+type PropsType = RouteComponentProps<PathParamsType>
 
 type MapStateToPropsType = {
     profile: ProfileType | null
 }
 
 type MapDispatchToPropsType = {
-    setProfile: (profile: ProfileType) => void
+    setProfile: (userID: string) => void
 }
 
-type OwnProfileContainerPropsType = {}
+type OwnProfileContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & PropsType & OwnPropsType
 
+type OwnPropsType = {}
 
-type OwnPropsType = MapStateToPropsType & MapDispatchToPropsType & OwnProfileContainerPropsType
-
-class ProfileContainer extends React.Component<PropsType> {
+class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
     componentDidMount() {
-        let userId = this.props.match.params.userId
-        if(!userId) userId =`2`
-        profileAPI.getProfile(userId)
-            .then(data => {
-            this.props.setProfile(data)
-        })
+        this.props.setProfile(this.props.match.params.userId)
     }
 
     render() {
@@ -47,21 +41,16 @@ class ProfileContainer extends React.Component<PropsType> {
 
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
-    return (
-        {profile: state.dialogsPage.profile}
-    )
-}
-
-
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
-        setProfile: (profile: ProfileType) => {
-            dispatch(setProfileAC(profile))
+            profile: state.dialogsPage.profile
         }
-    }
+
 }
+
 
 let WithUrlDataContainerComponent =   withRouter(ProfileContainer)
 
 
-export const ProfileContainerComponent = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataContainerComponent)
+export default compose( connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+    setProfile: setProfileThunk
+})(WithUrlDataContainerComponent))

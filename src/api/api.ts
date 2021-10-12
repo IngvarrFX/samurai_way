@@ -33,3 +33,13 @@ export const followedAPI = {
 
     },
 }
+
+
+export const setUserDataAPI = {
+    setUserData(){
+        return instance.get(`auth/me`)
+            .then((response) => response)
+    }
+}
+
+

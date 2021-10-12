@@ -1,9 +1,8 @@
 import React from "react";
 import {Header} from "./Header";
 import {AppStateType} from "../../redux/reduxStore";
-import {Dispatch} from "redux";
-import {setUserDataAC, setUserProfileDataAC, UserType} from "../../redux/authReducer";
-import axios from "axios";
+import {compose} from "redux";
+import {setUserDataThunk} from "../../redux/authReducer";
 import {connect} from "react-redux";
 
 
@@ -13,9 +12,10 @@ type MapStateToPropsType = {
     photoProfile: string | null | undefined
 }
 type MapDispatchToPropsType = {
-    setUserData: (userId: number, email: string, login: string) => void
-    setUserProfileData: (profileData: UserType) => void
+    setUserData: () => void
 }
+
+
 type OwnPropsType = {}
 
 type UsersContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
@@ -23,26 +23,8 @@ type UsersContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & Ow
 class HeaderContainer extends React.Component<UsersContainerPropsType> {
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentials: true
-        })
-            .then((response) => {
-                if (response.data.resultCode === 0) {
-                    let {id, email, login} = response.data.data
-                    this.props.setUserData(id, email, login)
-                }
-                return response.data.data.id
-
-            })
-            .then((id) => {
-                axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${id}`)
-                    .then((response) => {
-                        this.props.setUserProfileData(response.data.data)
-                    })
-            })
-
+        this.props.setUserData()
     }
-
 
     render() {
         return (
@@ -63,16 +45,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
-    return {
-        setUserData: (userId: number, email: string, login: string) => {
-            dispatch(setUserDataAC(userId, email, login))
-        },
-        setUserProfileData: (profileData: UserType) => {
-            dispatch(setUserProfileDataAC(profileData))
-        },
 
-    }
-}
-
-export const HeaderContainerComponent = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(HeaderContainer)
+export default compose(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+    setUserData: setUserDataThunk,
+}))(HeaderContainer)
