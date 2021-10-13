@@ -11,45 +11,12 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
 
 
-type DialogsContainerPropsType = {
-    store: Store
-}
 
-
-// export const DialogsContainer = () => {
-//
-//     return (
-//         <StoreContext.Consumer>
-//             {
-//                 (store) => {
-//                     let state: StateType = store.getState()
-//
-//
-//                     let addPostHandler = () => {
-//                         store.dispatch(addMessageActionCreator())
-//                     }
-//                     const onChangeHandler = (text: string) => {
-//                         store.dispatch(updateMessageActionCreator(text))
-//                     }
-//                     return (
-//                         <div>
-//                             <Dialogs dialogs={state.dialogsPage.dialogsData}
-//                                      messages={state.dialogsPage.messagesData}
-//                                      newMessage={state.dialogsPage.newMessageText}
-//                                      addPost={addPostHandler}
-//                                      updateMessage={onChangeHandler}
-//                             />
-//                         </div>
-//                     )
-//                 }
-//             }
-//         </StoreContext.Consumer>
-//     )
-// }
 type MapStateToPropsType = {
     dialogs: DialogsType[]
     messages: MessageType[]
     newMessage: string
+    isAuth: boolean
 }
 
 
@@ -61,10 +28,10 @@ type MapDispatchToPropsType = {
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        //dialogsPage: state.dialogsPage
         dialogs: state.dialogsPage.dialogsData,
         messages: state.dialogsPage.messagesData,
-        newMessage: state.dialogsPage.newMessageText
+        newMessage: state.dialogsPage.newMessageText,
+        isAuth: state.auth.isAuth
     }
 }
 

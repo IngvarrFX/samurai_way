@@ -73,25 +73,6 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 
-// const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
-//     return {
-//         follow: (userId: number) => {
-//             // @ts-ignore
-//
-//             dispatch(folowThunk(userId))
-//         },
-//         unfollow: (userId: number) => {
-//             dispatch(unfollowAC(userId))
-//         },
-//         toggleIsFollowing: (isFetching: boolean, id: number) => {
-//             dispatch(toggleIsFollowingAC(isFetching, id))
-//         },
-//         getUsers: (currentPage: number, count: number) => {
-//             // @ts-ignore
-//             dispatch(getUsersThunk(currentPage, count))
-//         }
-//     }
-// }
 
 
 export default compose(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {

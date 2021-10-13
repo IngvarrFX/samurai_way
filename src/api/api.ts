@@ -13,33 +13,51 @@ export const userAPI = {
     getUsers(currentPage:number = 1, count:number = 10) {
         return instance.get(`users?page=${currentPage}&count=${count}`)
             .then((response) => response.data)
-    }
-}
-
-export const profileAPI = {
-    getProfile(userId = `2`) {
+    },
+    getProfile(userId = `19523`) {
         return instance.get(`profile/${userId}`)
             .then((response) => response.data)
-    }
-}
-
-export const followedAPI = {
-    followed(id:number = 2) {
+    },
+    followed(id:number = 19523) {
         return instance.post(`follow/${id}`).then((response) =>response.data)
 
     },
-    unFollowed(id:number = 2) {
+    unFollowed(id:number = 19523) {
         return instance.delete(`follow/${id}`).then((response) => response.data)
 
     },
 }
 
-
-export const setUserDataAPI = {
-    setUserData(){
+export const authAPI = {
+    me(){
         return instance.get(`auth/me`)
             .then((response) => response)
     }
 }
+
+// export const profileAPI = {
+//     getProfile(userId = `2`) {
+//         return instance.get(`profile/${userId}`)
+//             .then((response) => response.data)
+//     }
+// }
+
+// export const followedAPI = {
+//     followed(id:number = 2) {
+//         return instance.post(`follow/${id}`).then((response) =>response.data)
+//
+//     },
+//     unFollowed(id:number = 2) {
+//         return instance.delete(`follow/${id}`).then((response) => response.data)
+//
+//     },
+// }
+
+// export const setUserDataAPI = {
+//     setUserData(){
+//         return instance.get(`auth/me`)
+//             .then((response) => response)
+//     }
+// }
 
 

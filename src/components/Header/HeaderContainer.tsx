@@ -2,7 +2,7 @@ import React from "react";
 import {Header} from "./Header";
 import {AppStateType} from "../../redux/reduxStore";
 import {compose} from "redux";
-import {setUserDataThunk} from "../../redux/authReducer";
+import {getUserDataThunk} from "../../redux/authReducer";
 import {connect} from "react-redux";
 
 
@@ -47,5 +47,5 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
 
 export default compose(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-    setUserData: setUserDataThunk,
+    setUserData: getUserDataThunk,
 }))(HeaderContainer)

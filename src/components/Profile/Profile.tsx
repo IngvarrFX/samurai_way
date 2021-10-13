@@ -7,7 +7,6 @@ import { ProfileType } from "../../redux/messageReducer";
 
 
 type ProfilePropsType = {
-    //store: Store
     profile: ProfileType | null
 }
 

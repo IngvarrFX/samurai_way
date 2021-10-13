@@ -1,4 +1,4 @@
-import {profileAPI, setUserDataAPI} from "../api/api";
+import {authAPI, userAPI} from "../api/api";
 import {toggleIsFetchingAC} from "./usersReducer";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./reduxStore";
@@ -91,9 +91,9 @@ export const setUserProfileDataAC = (profileData: UserType): SetUserProfileDataA
 export type ThunkActionType = ThunkAction<void, AppStateType, unknown, ActionType>
 type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
-export const setUserDataThunk = (): ThunkActionType => (dispatch: DispatchType) => {
+export const getUserDataThunk = (): ThunkActionType => (dispatch: DispatchType) => {
     dispatch(toggleIsFetchingAC(true))
-    setUserDataAPI.setUserData()
+    authAPI.me()
         .then((response) => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data
@@ -101,10 +101,10 @@ export const setUserDataThunk = (): ThunkActionType => (dispatch: DispatchType) 
             }
             return response.data.data.id
         })
-        .then((userID) => {
-            profileAPI.getProfile(userID)
-                .then((data) => {
-                    dispatch(setUserProfileDataAC(data.data))
-                })
-        })
+        // .then((userID) => {
+        //     userAPI.getProfile(userID)
+        //         .then((data) => {
+        //             dispatch(setUserProfileDataAC(data.data))
+        //         })
+        // })
 }

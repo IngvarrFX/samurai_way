@@ -1,5 +1,5 @@
 import {AnyAction} from "redux";
-import {followedAPI, profileAPI, userAPI} from "../api/api";
+import {userAPI} from "../api/api";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./reduxStore";
 import {setProfileAC} from "./messageReducer";
@@ -168,7 +168,7 @@ export const getUsersThunk = (currentPage: number, count: number): ThunkActionTy
 
 export const unfolowThunk = (userID: number): ThunkActionType => (dispatch: DispatchType) => {
     dispatch(toggleIsFollowingAC(true, userID))
-    followedAPI.unFollowed(userID)
+    userAPI.unFollowed(userID)
         .then(data => {
             if (data.resultCode == 0) {
                 dispatch(unfollowAC(userID))
@@ -180,7 +180,7 @@ export const unfolowThunk = (userID: number): ThunkActionType => (dispatch: Disp
 
 export const folowThunk = (userID: number): ThunkActionType => (dispatch: DispatchType) => {
     dispatch(toggleIsFollowingAC(true, userID))
-    followedAPI.followed(userID)
+    userAPI.followed(userID)
         .then(data => {
             if (data.resultCode == 0) {
                 debugger
@@ -191,10 +191,9 @@ export const folowThunk = (userID: number): ThunkActionType => (dispatch: Dispat
 }
 
 
-export const setProfileThunk = (userID: string): ThunkActionType => (dispatch: DispatchType) => {
-    let userId = userID
-    if(!userId) userId =`2`
-    profileAPI.getProfile(userId)
+export const getProfileThunk = (userID: string): ThunkActionType => (dispatch: DispatchType) => {
+
+    userAPI.getProfile(userID)
         .then(data => {
             dispatch(setProfileAC(data))
         })
