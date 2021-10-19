@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {ProfileType} from "../../redux/messageReducer";
@@ -7,6 +7,7 @@ import {Profile} from "./Profile";
 import {RouteComponentProps, withRouter} from "react-router";
 import {getProfileThunk} from "../../redux/usersReducer";
 import {Redirect} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 type PathParamsType = {
@@ -18,7 +19,6 @@ type PropsType = RouteComponentProps<PathParamsType>
 
 type MapStateToPropsType = {
     profile: ProfileType | null
-    isAuth: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -32,12 +32,11 @@ type OwnPropsType = {}
 class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if(!userId) userId =`19523`
+        if (!userId) userId = `19523`
         this.props.getUserProfile(userId)
     }
 
     render() {
-        if(!this.props.isAuth) return <Redirect to={'/login'}/>
         return (
             <><Profile profile={this.props.profile}/> </>
         )
@@ -47,16 +46,15 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-            profile: state.dialogsPage.profile,
-        isAuth: state.auth.isAuth
-        }
+        profile: state.dialogsPage.profile,
+    }
 
 }
+// let WithAuthRedirectComponent = withAuthRedirect(ProfileContainer)
+//
+// let WithUrlDataContainerComponent = withRouter(WithAuthRedirectComponent)
 
 
-let WithUrlDataContainerComponent =   withRouter(ProfileContainer)
-
-
-export default compose( connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     getUserProfile: getProfileThunk
-})(WithUrlDataContainerComponent))
+}), withRouter, /*withAuthRedirect*/)(ProfileContainer)

@@ -2,7 +2,7 @@ import React, {ChangeEvent, RefObject} from "react";
 import style from "./Dialogs.module.css"
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Messages} from "./Messages/Messages";
-import {Redirect} from "react-router-dom";
+
 
 
 export type DialogNamesType = {
@@ -20,7 +20,6 @@ type DialogsPropsType = {
     newMessage: string
     dialogs: Array<DialogNamesType>
     messages: Array<MessagesType>
-    isAuth:boolean
     addPost: () => void
     updateMessage: (text: string) => void
 }
@@ -39,7 +38,6 @@ export const Dialogs = (props: DialogsPropsType) => {
         props.updateMessage(e.currentTarget.value)
     }
 
-    if(!props.isAuth) return <Redirect to={'/login'}/>
 
     return (
         <div className={style.dialogs}>

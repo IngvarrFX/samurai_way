@@ -1,10 +1,11 @@
-import React from "react"
+import React, {ComponentType} from "react"
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
 import {folowThunk, getUsersThunk, toggleIsFetchingAC, unfolowThunk, UserType} from "../../redux/usersReducer";
 import {compose} from "redux";
 import {Users} from "./Users";
 import {Preloader} from "../../common/preloader/Preloader";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 type MapStateToPropsType = {
@@ -73,11 +74,11 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 
+// let wAR = withAuthRedirect(UsersContainer)
 
-
-export default compose(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     follow: folowThunk,
     unfollow: unfolowThunk,
     toggleIsFollowing: toggleIsFetchingAC,
     getUsers: getUsersThunk
-}))(UsersContainer)
+}),withAuthRedirect)(UsersContainer)

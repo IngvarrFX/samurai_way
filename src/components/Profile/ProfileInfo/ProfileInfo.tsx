@@ -13,9 +13,9 @@ type ProfileInfoPropsType ={
 export const ProfileInfo = (props:ProfileInfoPropsType) => {
         return (
             <div>
-                <div>
-                    <img src="https://hbr.org/resources/images/article_assets/2021/04/Apr21_16_1249623281.jpg" alt=""/>
-                </div>
+                {/*<div>*/}
+                {/*    <img src="https://hbr.org/resources/images/article_assets/2021/04/Apr21_16_1249623281.jpg" alt=""/>*/}
+                {/*</div>*/}
                 <div className={style.descriptionBlock}>
                     <img src={props.profile.photos.large? props.profile.photos.large : avatarDefault } alt=""/>
 

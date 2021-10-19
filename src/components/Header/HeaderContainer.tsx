@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import {Header} from "./Header";
 import {AppStateType} from "../../redux/reduxStore";
 import {compose} from "redux";
@@ -46,6 +46,6 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 
-export default compose(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     setUserData: getUserDataThunk,
 }))(HeaderContainer)
