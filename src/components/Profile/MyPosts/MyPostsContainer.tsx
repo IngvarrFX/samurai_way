@@ -2,7 +2,7 @@ import React from "react";
 import {addPostActionCreator, PostDataType, updateNewPostTextActionCreator} from "../../../redux/dialogsReducer";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import {AppStateType} from "../../../redux/reduxStore";
 
 
@@ -36,4 +36,4 @@ const mapDispatchToProps = (dispatch: Dispatch):MapDispatchToPropsType => {
     }
 }
 
-export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+export default compose(connect(mapStateToProps, mapDispatchToProps))(MyPosts)

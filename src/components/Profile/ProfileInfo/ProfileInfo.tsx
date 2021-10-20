@@ -2,11 +2,14 @@ import React from "react";
 import { ProfileType } from "../../../redux/messageReducer";
 import style from "./ProfileInfo.module.css"
 import avatarDefault from '../../../assets/images/avatarDefault.png'
+import {ProfileStatus} from "../ProfileStatus";
 
 
 
 type ProfileInfoPropsType ={
     profile: ProfileType
+    status: string
+    updateProfileStatus:(status: string) => void
 }
 
 
@@ -18,7 +21,7 @@ export const ProfileInfo = (props:ProfileInfoPropsType) => {
                 {/*</div>*/}
                 <div className={style.descriptionBlock}>
                     <img src={props.profile.photos.large? props.profile.photos.large : avatarDefault } alt=""/>
-
+                    <ProfileStatus status={props.status} updateProfileStatus={props.updateProfileStatus} />
                     <div>
                         <span><b>FullName: </b></span>
                         <span>{props.profile.fullName} </span>
@@ -38,8 +41,6 @@ export const ProfileInfo = (props:ProfileInfoPropsType) => {
                         <hr></hr>
                         <span><b>lookingForAJobDescription: </b></span>
                         <div>{props.profile.lookingForAJobDescription}</div>
-
-
                     </div>
                 </div>
             </div>

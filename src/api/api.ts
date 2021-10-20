@@ -10,26 +10,42 @@ const instance = axios.create({
 })
 
 export const userAPI = {
-    getUsers(currentPage:number = 1, count:number = 10) {
+    getUsers(currentPage: number = 1, count: number = 10) {
         return instance.get(`users?page=${currentPage}&count=${count}`)
             .then((response) => response.data)
     },
     getProfile(userId = `19523`) {
-        return instance.get(`profile/${userId}`)
-            .then((response) => response.data)
+       /* return instance.get(`profile/${userId}`)
+            .then((response) => response.data)*/
+        console.warn('Please use profileStatusAPI')
+        return profileStatusAPI.getProfile(userId)
     },
-    followed(id:number = 19523) {
-        return instance.post(`follow/${id}`).then((response) =>response.data)
+    followed(id: number = 19523) {
+        return instance.post(`follow/${id}`).then((response) => response.data)
 
     },
-    unFollowed(id:number = 19523) {
+    unFollowed(id: number = 19523) {
         return instance.delete(`follow/${id}`).then((response) => response.data)
 
     },
 }
 
+
+export const profileStatusAPI = {
+    getProfile(userId: string) {
+        return instance.get(`/profile/${userId}`)
+    },
+    getProfileStatus(userId: string) {
+        return instance.get(`/profile/status/${userId}`)
+    },
+    updateProfileStatus(status: string){
+        return instance.put(`/profile/status`, {status})
+    }
+}
+
+
 export const authAPI = {
-    me(){
+    me() {
         return instance.get(`auth/me`)
             .then((response) => response)
     }

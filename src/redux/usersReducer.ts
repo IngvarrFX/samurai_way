@@ -194,8 +194,8 @@ export const folowThunk = (userID: number): ThunkActionType => (dispatch: Dispat
 export const getProfileThunk = (userID: string): ThunkActionType => (dispatch: DispatchType) => {
 
     userAPI.getProfile(userID)
-        .then(data => {
-            dispatch(setProfileAC(data))
+        .then(response => {
+            dispatch(setProfileAC(response.data))
         })
 }
 
