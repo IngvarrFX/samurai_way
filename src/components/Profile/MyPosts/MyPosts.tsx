@@ -6,7 +6,7 @@ import {
     addPostActionCreator,
     PostDataType,
     updateNewPostTextActionCreator,
-} from '../../../redux/dialogsReducer';
+} from '../../../redux/profileReducer';
 
 
 

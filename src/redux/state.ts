@@ -1,8 +1,8 @@
 import {v1} from 'uuid';
 import {
     addPostActionCreator,
-    dialogsReducer, updateNewPostTextActionCreator,
-} from './dialogsReducer';
+    profileReducer, updateNewPostTextActionCreator,
+} from './profileReducer';
 import {
     addMessageActionCreator,
     messageReducer, updateMessageActionCreator,

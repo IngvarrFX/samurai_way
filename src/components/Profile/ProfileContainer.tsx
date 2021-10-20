@@ -8,7 +8,7 @@ import {RouteComponentProps, withRouter} from "react-router";
 import {getProfileThunk} from "../../redux/usersReducer";
 import {Redirect} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {getProfileStatusThunkCr, updateProfileStatusThunkCr} from "../../redux/dialogsReducer";
+import {getProfileStatusThunkCr, updateProfileStatusThunkCr} from "../../redux/profileReducer";
 
 
 type PathParamsType = {

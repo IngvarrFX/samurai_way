@@ -3,9 +3,9 @@ import {v1} from "uuid";
 import {
     ActionDialogsReducerType,
     addPostActionCreator,
-    dialogsReducer,
+    profileReducer,
     updateNewPostTextActionCreator
-} from "./dialogsReducer";
+} from "./profileReducer";
 
 test("shuold be add new post in state", () => {
 
@@ -22,7 +22,7 @@ test("shuold be add new post in state", () => {
 
     const action: ActionDialogsReducerType = addPostActionCreator()
 
-    const result = dialogsReducer(state, action)
+    const result = profileReducer(state, action)
 
 
     expect(result.postsData.length).toBe(5)
@@ -44,7 +44,7 @@ test("shuold be add new post in state", () => {
 
     const action: ActionDialogsReducerType = updateNewPostTextActionCreator('my name')
 
-    const result = dialogsReducer(state, action)
+    const result = profileReducer(state, action)
 
 
     expect(result.newPostText).toBe('my name')

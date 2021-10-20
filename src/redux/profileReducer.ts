@@ -42,7 +42,7 @@ const initialState: ProfilePageType = {
 }
 
 
-export const dialogsReducer = (state: ProfilePageType = initialState, action: ActionDialogsReducerType): ProfilePageType => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionDialogsReducerType): ProfilePageType => {
     switch (action.type) {
         case "ADD-POST": {
             return {
