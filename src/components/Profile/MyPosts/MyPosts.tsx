@@ -1,13 +1,8 @@
-import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from 'react';
-import {Post} from './Post/Post';
-import style from './MyPosts.module.css'
-import {
-
-    addPostActionCreator,
-    PostDataType,
-    updateNewPostTextActionCreator,
-} from '../../../redux/profileReducer';
-
+import React from "react";
+import {Post} from "./Post/Post";
+import style from "./MyPosts.module.css"
+import {PostDataType,} from "../../../redux/profileReducer";
+import {AddPost} from "../../../form/AddPostForm";
 
 
 export type MessagesPropsType = {
@@ -18,9 +13,7 @@ export type MessagesPropsType = {
 
 export type DataType = {
     data: Array<PostDataType>
-    newPostText: string
-    addPost: () => void
-    updatePost:(text: string) => void
+    addPost: (value: string) => void
 }
 
 
@@ -29,31 +22,18 @@ export const MyPosts = (props: DataType) => {
 
     let postsElemets = props.data.map((m) => <Post key={m.id} message={m.message} likeCounts={m.likesCount}/>)
 
-    let newPostElement = React.createRef<HTMLTextAreaElement>();
 
-    const addPostHandler = () => {
-        props.addPost()
+    const addPostFormHandler = (value: string) => {
+        props.addPost(value)
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updatePost(e.currentTarget.value)
-    }
 
     return (
         <div className={style.postsBlock}>
             <div>
                 <h3>My Posts</h3>
                 <div>
-                    <div>
-                        <textarea
-                            value={props.newPostText}
-                            ref={newPostElement}
-                            onChange={onChangeHandler}
-                        />
-                    </div>
-                    <div>
-                        <button onClick={addPostHandler}>Add post</button>
-                    </div>
+                    <AddPost addPostFormHandler={addPostFormHandler}/>
                 </div>
                 <div className={style.posts}>
                     {postsElemets}

@@ -1,8 +1,8 @@
-import React, {ChangeEvent, RefObject} from "react";
+import React from "react";
 import style from "./Dialogs.module.css"
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Messages} from "./Messages/Messages";
-
+import {Dialog} from "../../form/dialogForm";
 
 
 export type DialogNamesType = {
@@ -17,11 +17,9 @@ export type MessagesType = {
 }
 
 type DialogsPropsType = {
-    newMessage: string
     dialogs: Array<DialogNamesType>
     messages: Array<MessagesType>
-    addPost: () => void
-    updateMessage: (text: string) => void
+    addPost: (value: string) => void
 }
 
 export const Dialogs = (props: DialogsPropsType) => {
@@ -29,15 +27,9 @@ export const Dialogs = (props: DialogsPropsType) => {
     let dialogsElement = props.dialogs.map((d) => <DialogItem key={d.id} name={d.name} id={d.id}/>)
     let messagesElement = props.messages.map((m) => <Messages key={m.id} message={m.message}/>)
 
-    let newMessageElement: RefObject<HTMLTextAreaElement> = React.createRef()
-
-    let addPostHandler = () => {
-        props.addPost()
+    const addNewMessageBody = (value: string) => {
+        props.addPost(value)
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateMessage(e.currentTarget.value)
-    }
-
 
     return (
         <div className={style.dialogs}>
@@ -46,16 +38,7 @@ export const Dialogs = (props: DialogsPropsType) => {
             </div>
             <div className={style.messages}>
                 {messagesElement}
-                <div className={style.textArea}>
-                    <textarea ref={newMessageElement}
-                              onChange={onChangeHandler}
-                              value={props.newMessage}
-                              placeholder={'Enter your message'}
-                    ></textarea>
-                </div>
-                <div>
-                    <button onClick={addPostHandler}>Send message</button>
-                </div>
+                <Dialog addNewMessageBody={addNewMessageBody}/>
                 <div>
                 </div>
             </div>

@@ -1,14 +1,3 @@
-import {v1} from 'uuid';
-import {
-    addPostActionCreator,
-    profileReducer, updateNewPostTextActionCreator,
-} from './profileReducer';
-import {
-    addMessageActionCreator,
-    messageReducer, updateMessageActionCreator,
-} from './messageReducer';
-
-
 type MessageType = {
     id: string
     message: string

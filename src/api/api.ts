@@ -51,29 +51,14 @@ export const authAPI = {
     }
 }
 
-// export const profileAPI = {
-//     getProfile(userId = `2`) {
-//         return instance.get(`profile/${userId}`)
-//             .then((response) => response.data)
-//     }
-// }
 
-// export const followedAPI = {
-//     followed(id:number = 2) {
-//         return instance.post(`follow/${id}`).then((response) =>response.data)
-//
-//     },
-//     unFollowed(id:number = 2) {
-//         return instance.delete(`follow/${id}`).then((response) => response.data)
-//
-//     },
-// }
+export const loginAPI = {
+    login(email: string, password: string, rememberMe: boolean){
+        return instance.post(`/auth/login`,{email, password, rememberMe})
+            .then((response)=> response)
+    }
+}
 
-// export const setUserDataAPI = {
-//     setUserData(){
-//         return instance.get(`auth/me`)
-//             .then((response) => response)
-//     }
-// }
+
 
 

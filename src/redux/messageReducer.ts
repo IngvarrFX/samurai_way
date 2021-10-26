@@ -1,14 +1,12 @@
-import {v1} from 'uuid';
+import {v1} from "uuid";
 
 
 export type ActionMessageReducerType =
     AddMessageActionCreatorType
-    | UpdateMessageActionCreatorType
     | SetProfileACType
 
-export const ADD_MESSAGE = 'ADD-MESSAGE'
-export const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
-export const SET_PROFILE = 'SET_PROFILE'
+export const ADD_MESSAGE = "ADD-MESSAGE"
+export const SET_PROFILE = "SET_PROFILE"
 
 export type MessageType = {
     id: string
@@ -49,22 +47,21 @@ export type ProfileType = {
 
 const initialState = {
     dialogsData: [
-        {id: v1(), name: 'Dimych'},
-        {id: v1(), name: 'Sveta'},
-        {id: v1(), name: 'Valera'},
-        {id: v1(), name: 'Victor'},
-        {id: v1(), name: 'Sasha'},
-        {id: v1(), name: 'Andrey'},
-        {id: v1(), name: 'Igor'},
+        {id: v1(), name: "Dimych"},
+        {id: v1(), name: "Sveta"},
+        {id: v1(), name: "Valera"},
+        {id: v1(), name: "Victor"},
+        {id: v1(), name: "Sasha"},
+        {id: v1(), name: "Andrey"},
+        {id: v1(), name: "Igor"},
     ],
     messagesData: [
-        {id: v1(), message: 'Hello', likesCount: 22},
-        {id: v1(), message: 'How is your learning?', likesCount: 36},
-        {id: v1(), message: 'Yo', likesCount: 23},
-        {id: v1(), message: 'You good!', likesCount: 55},
-        {id: v1(), message: 'My name is Mike', likesCount: 12},
+        {id: v1(), message: "Hello", likesCount: 22},
+        {id: v1(), message: "How is your learning?", likesCount: 36},
+        {id: v1(), message: "Yo", likesCount: 23},
+        {id: v1(), message: "You good!", likesCount: 55},
+        {id: v1(), message: "My name is Mike", likesCount: 12},
     ],
-    newMessageText: '',
     profile: null as ProfileType | null,
 }
 export type InitialStateType = typeof initialState
@@ -73,20 +70,14 @@ export const messageReducer = (state: InitialStateType = initialState, action: A
     switch (action.type) {
         case ADD_MESSAGE: {
             return {
-                ...state, newMessageText: '', messagesData: [{
+                ...state, messagesData: [{
                     id: v1(),
-                    message: state.newMessageText,
+                    message: action.newMessage,
                     likesCount: 0
                 }, ...state.messagesData,
 
                 ]
             }
-        }
-        case UPDATE_NEW_MESSAGE_TEXT: {
-            if (action.newMessageBody != null) {
-                return {...state, newMessageText: action.newMessageBody}
-            }
-            return state
         }
         case SET_PROFILE: {
             return {...state, profile: action.profile}
@@ -98,17 +89,12 @@ export const messageReducer = (state: InitialStateType = initialState, action: A
 
 type AddMessageActionCreatorType = {
     type: typeof ADD_MESSAGE
+    newMessage: string
 }
-export const addMessageActionCreator = (): AddMessageActionCreatorType => ({type: ADD_MESSAGE} as const)
-
-
-type UpdateMessageActionCreatorType = {
-    type: typeof UPDATE_NEW_MESSAGE_TEXT
-    newMessageBody: string
-}
-export const updateMessageActionCreator = (newMessageBody: string): UpdateMessageActionCreatorType => (
-    {type: UPDATE_NEW_MESSAGE_TEXT, newMessageBody} as const
-)
+export const addMessageActionCreator = (newMessage: string): AddMessageActionCreatorType => ({
+    type: ADD_MESSAGE,
+    newMessage
+} as const)
 
 
 type SetProfileACType = {
