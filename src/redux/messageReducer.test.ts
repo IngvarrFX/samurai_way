@@ -1,5 +1,5 @@
 import {
-    ActionMessageReducerType, addMessageActionCreator,
+    MessageActionType, addMessageActionCreator,
     messageReducer,
     updateMessageActionCreator
 } from "./messageReducer";
@@ -29,7 +29,7 @@ test("shuold be add new message in state", () => {
         ], newMessageText: ''
     }
 
-    const action: ActionMessageReducerType = addMessageActionCreator()
+    const action: MessageActionType = addMessageActionCreator()
 
     const result = messageReducer(state, action)
 
@@ -60,7 +60,7 @@ test("shuold be update message in state", () => {
         ], newMessageText: ''
     }
 
-    const action: ActionMessageReducerType = updateMessageActionCreator('hello')
+    const action: MessageActionType = updateMessageActionCreator('hello')
 
     const result = messageReducer(state, action)
 

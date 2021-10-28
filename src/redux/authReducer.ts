@@ -1,7 +1,7 @@
-import {authAPI, userAPI} from "../api/api";
+import {authAPI, loginAPI} from "../api/api";
 import {toggleIsFetchingAC} from "./usersReducer";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "./reduxStore";
+import {AppActionsType, AppStateType, AppThunk} from "./reduxStore";
 import {AnyAction} from "redux";
 
 const SET_USER_DATA = "SET_USER_DATA"
@@ -47,12 +47,12 @@ const initialState: InitialStateType = {
     user: null as UserType | null,
 }
 
-type ActionType = SetUserDataACType | SetUserProfileDataACType
+export type AuthActionType = SetUserDataACType | SetUserProfileDataACType
 
-export const authReducer = (state = initialState, action: ActionType): InitialStateType => {
+export const authReducer = (state = initialState, action: AuthActionType): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA: {
-            return {...state, id: action.userID, email: action.email, login: action.login, isAuth: true}
+            return {...state, id: action.userID, email: action.email, login: action.login, isAuth: action.isAuth}
         }
         case SET_USER_PROFILE_DATA: {
             return {
@@ -67,15 +67,17 @@ export const authReducer = (state = initialState, action: ActionType): InitialSt
 
 type SetUserDataACType = {
     type: typeof SET_USER_DATA
-    userID: number
-    email: string
-    login: string
+    userID: number | null
+    email: string | null
+    login: string | null
+    isAuth: boolean
 }
-export const setUserDataAC = (userID: number, email: string, login: string): SetUserDataACType => ({
+export const setUserDataAC = (userID: number | null, email: string | null, login: string | null, isAuth: boolean): SetUserDataACType => ({
     type: SET_USER_DATA,
     userID,
     email,
-    login
+    login,
+    isAuth
 })
 
 type SetUserProfileDataACType = {
@@ -88,23 +90,29 @@ export const setUserProfileDataAC = (profileData: UserType): SetUserProfileDataA
 })
 
 
-export type ThunkActionType = ThunkAction<void, AppStateType, unknown, ActionType>
-type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
+// export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
+// type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
-export const getUserDataThunk = (): ThunkActionType => (dispatch: DispatchType) => {
+export const getUserDataThunk = (): AppThunk => async dispatch => {
     dispatch(toggleIsFetchingAC(true))
-    authAPI.me()
-        .then((response) => {
-            if (response.data.resultCode === 0) {
-                let {id, email, login} = response.data.data
-                dispatch(setUserDataAC(id, email, login))
-            }
-            return response.data.data.id
-        })
-        // .then((userID) => {
-        //     userAPI.getProfile(userID)
-        //         .then((data) => {
-        //             dispatch(setUserProfileDataAC(data.data))
-        //         })
-        // })
+    const res = await authAPI.me()
+    if (res.data.resultCode === 0) {
+        let {id, email, login} = res.data.data
+        dispatch(setUserDataAC(id, email, login, true))
+    }
+}
+
+export const loginTC = (email: string, password: string, rememberMe: boolean): AppThunk => async dispatch => {
+    const res = await loginAPI.login(email, password, rememberMe)
+    if (res.data.resultCode === 0) {
+        dispatch(getUserDataThunk())
+    }
+}
+
+
+export const logOutTC = (): AppThunk => async dispatch => {
+    const res = await loginAPI.logOut()
+    if (res.data.resultCode === 0) {
+        dispatch(setUserDataAC(null, null, null, false))
+    }
 }

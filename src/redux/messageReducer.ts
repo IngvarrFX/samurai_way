@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 
 
-export type ActionMessageReducerType =
+export type MessageActionType =
     AddMessageActionCreatorType
     | SetProfileACType
 
@@ -66,7 +66,7 @@ const initialState = {
 }
 export type InitialStateType = typeof initialState
 
-export const messageReducer = (state: InitialStateType = initialState, action: ActionMessageReducerType): InitialStateType => {
+export const messageReducer = (state: InitialStateType = initialState, action: MessageActionType): InitialStateType => {
     switch (action.type) {
         case ADD_MESSAGE: {
             return {

@@ -1,7 +1,7 @@
 import {DialogsPageType, ProfilePageType} from "./state";
 import {v1} from "uuid";
 import {
-    ActionDialogsReducerType,
+    ProfileActionType,
     addPostActionCreator,
     profileReducer,
     updateNewPostTextActionCreator
@@ -20,7 +20,7 @@ test("shuold be add new post in state", () => {
         newPostText: 'it-kamasutra.com'
     }
 
-    const action: ActionDialogsReducerType = addPostActionCreator()
+    const action: ProfileActionType = addPostActionCreator()
 
     const result = profileReducer(state, action)
 
@@ -42,7 +42,7 @@ test("shuold be add new post in state", () => {
         newPostText: 'it-kamasutra.com'
     }
 
-    const action: ActionDialogsReducerType = updateNewPostTextActionCreator('my name')
+    const action: ProfileActionType = updateNewPostTextActionCreator('my name')
 
     const result = profileReducer(state, action)
 

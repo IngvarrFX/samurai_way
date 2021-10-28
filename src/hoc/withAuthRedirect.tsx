@@ -32,5 +32,3 @@ export function withAuthRedirect<P>(Component: ComponentType<P>) {
     return WithAuthRedirectContainer
 }
 
-
-//Omit<P,'isAuth'>

@@ -6,7 +6,7 @@ import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import UsersContainerComponent from "./components/Users/UsersContainer";
 import ProfileContainerComponent from "./components/Profile/ProfileContainer";
 import HeaderContainerComponent from "./components/Header/HeaderContainer";
-import {Login} from "./components/Login/Login";
+import Login from "./components/Login/Login";
 
 
 const App = () => {

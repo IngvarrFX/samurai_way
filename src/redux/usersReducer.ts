@@ -1,7 +1,7 @@
 import {AnyAction} from "redux";
 import {userAPI} from "../api/api";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "./reduxStore";
+import {AppActionsType, AppStateType, AppThunk} from "./reduxStore";
 import {setProfileAC} from "./messageReducer";
 
 const FOLLOW = "FOLLOW"
@@ -48,7 +48,7 @@ const initialState: InitialStateType = {
 }
 
 
-export type ActionType = FollowACType
+export type UserActionType = FollowACType
     | unfollowACType
     | SetUsersACType
     | SetTotalUsersACType
@@ -56,7 +56,7 @@ export type ActionType = FollowACType
     | ToggleIsFetchingACType
     | ToggleIsFollowingACType
 
-export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+export const usersReducer = (state: InitialStateType = initialState, action: UserActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW: {
             debugger
@@ -150,11 +150,11 @@ export const toggleIsFollowingAC = (isFetching: boolean, id: number): ToggleIsFo
 })
 
 
-export type ThunkActionType = ThunkAction<void, AppStateType, unknown, ActionType>
-type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
+// export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
+// type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
 
-export const getUsersThunk = (currentPage: number, count: number): ThunkActionType => (dispatch: DispatchType) => {
+export const getUsersThunk = (currentPage: number, count: number): AppThunk => (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
     userAPI.getUsers(currentPage, count)
         .then(data => {
@@ -166,7 +166,7 @@ export const getUsersThunk = (currentPage: number, count: number): ThunkActionTy
 }
 
 
-export const unfolowThunk = (userID: number): ThunkActionType => (dispatch: DispatchType) => {
+export const unfolowThunk = (userID: number): AppThunk => (dispatch) => {
     dispatch(toggleIsFollowingAC(true, userID))
     userAPI.unFollowed(userID)
         .then(data => {
@@ -178,7 +178,7 @@ export const unfolowThunk = (userID: number): ThunkActionType => (dispatch: Disp
 }
 
 
-export const folowThunk = (userID: number): ThunkActionType => (dispatch: DispatchType) => {
+export const folowThunk = (userID: number): AppThunk => (dispatch) => {
     dispatch(toggleIsFollowingAC(true, userID))
     userAPI.followed(userID)
         .then(data => {
@@ -191,7 +191,7 @@ export const folowThunk = (userID: number): ThunkActionType => (dispatch: Dispat
 }
 
 
-export const getProfileThunk = (userID: string): ThunkActionType => (dispatch: DispatchType) => {
+export const getProfileThunk = (userID: string): AppThunk => (dispatch) => {
 
     userAPI.getProfile(userID)
         .then(response => {
