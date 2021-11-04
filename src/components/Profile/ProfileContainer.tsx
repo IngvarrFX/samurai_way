@@ -6,7 +6,6 @@ import {AppStateType} from "../../redux/reduxStore";
 import {Profile} from "./Profile";
 import {RouteComponentProps, withRouter} from "react-router";
 import {getProfileThunk} from "../../redux/usersReducer";
-import {Redirect} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {getProfileStatusThunkCr, updateProfileStatusThunkCr} from "../../redux/profileReducer";
 
@@ -21,6 +20,8 @@ type PropsType = RouteComponentProps<PathParamsType>
 type MapStateToPropsType = {
     profile: ProfileType | null
     status: string
+    authorizedUserId: number | null
+    isAuth: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -53,7 +54,9 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         profile: state.dialogsPage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        authorizedUserId : state.auth.id,
+        isAuth: state.auth.isAuth
     }
 
 }

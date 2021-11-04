@@ -1,8 +1,7 @@
 import {authAPI, loginAPI} from "../api/api";
 import {toggleIsFetchingAC} from "./usersReducer";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {AppActionsType, AppStateType, AppThunk} from "./reduxStore";
-import {AnyAction} from "redux";
+import {AppThunk} from "./reduxStore";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = "SET_USER_DATA"
 const SET_USER_PROFILE_DATA = "SET_USER_PROFILE_DATA"
@@ -13,6 +12,7 @@ type InitialStateType = {
     login: string | null
     isAuth: boolean
     user: UserType | null,
+    error: string
 }
 type ContactsType = {
     github: string
@@ -45,6 +45,7 @@ const initialState: InitialStateType = {
     login: null as string | null,
     isAuth: false,
     user: null as UserType | null,
+    error: ''
 }
 
 export type AuthActionType = SetUserDataACType | SetUserProfileDataACType
@@ -52,7 +53,7 @@ export type AuthActionType = SetUserDataACType | SetUserProfileDataACType
 export const authReducer = (state = initialState, action: AuthActionType): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA: {
-            return {...state, id: action.userID, email: action.email, login: action.login, isAuth: action.isAuth}
+            return {...state, ...action.payload}
         }
         case SET_USER_PROFILE_DATA: {
             return {
@@ -67,17 +68,22 @@ export const authReducer = (state = initialState, action: AuthActionType): Initi
 
 type SetUserDataACType = {
     type: typeof SET_USER_DATA
-    userID: number | null
-    email: string | null
-    login: string | null
-    isAuth: boolean
+    payload: {
+        userID: number | null
+        email: string | null
+        login: string | null
+        isAuth: boolean
+    }
 }
 export const setUserDataAC = (userID: number | null, email: string | null, login: string | null, isAuth: boolean): SetUserDataACType => ({
     type: SET_USER_DATA,
-    userID,
-    email,
-    login,
-    isAuth
+    payload: {
+        userID,
+        email,
+        login,
+        isAuth
+    }
+
 })
 
 type SetUserProfileDataACType = {
@@ -106,6 +112,8 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): A
     const res = await loginAPI.login(email, password, rememberMe)
     if (res.data.resultCode === 0) {
         dispatch(getUserDataThunk())
+    }else{
+        dispatch(stopSubmit("form",{_error: res.data.messages[0]}))
     }
 }
 
