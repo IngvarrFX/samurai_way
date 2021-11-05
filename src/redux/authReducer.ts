@@ -45,7 +45,7 @@ const initialState: InitialStateType = {
     login: null as string | null,
     isAuth: false,
     user: null as UserType | null,
-    error: ''
+    error: ""
 }
 
 export type AuthActionType = SetUserDataACType | SetUserProfileDataACType
@@ -99,21 +99,29 @@ export const setUserProfileDataAC = (profileData: UserType): SetUserProfileDataA
 // export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
 // type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
-export const getUserDataThunk = (): AppThunk => async dispatch => {
+export const getUserDataThunk = (): AppThunk<Promise<string | void>> => dispatch => {
     dispatch(toggleIsFetchingAC(true))
-    const res = await authAPI.me()
-    if (res.data.resultCode === 0) {
-        let {id, email, login} = res.data.data
-        dispatch(setUserDataAC(id, email, login, true))
-    }
+    // const res = await authAPI.me()
+    // if (res.data.resultCode === 0) {
+    //     let {id, email, login} = res.data.data
+    //     dispatch(setUserDataAC(id, email, login, true))
+    // }
+    return authAPI.me()
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                let {id, email, login} = res.data.data
+                dispatch(setUserDataAC(id, email, login, true))
+            }
+        })
 }
+
 
 export const loginTC = (email: string, password: string, rememberMe: boolean): AppThunk => async dispatch => {
     const res = await loginAPI.login(email, password, rememberMe)
     if (res.data.resultCode === 0) {
         dispatch(getUserDataThunk())
-    }else{
-        dispatch(stopSubmit("form",{_error: res.data.messages[0]}))
+    } else {
+        dispatch(stopSubmit("form", {_error: res.data.messages[0]}))
     }
 }
 

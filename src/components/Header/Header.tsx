@@ -1,7 +1,6 @@
 import React from "react";
 import style from "./Header.module.css"
 import {NavLink} from "react-router-dom";
-import avatarDefault from "../../assets/images/810.svg";
 
 type HeaderPropsType = {
     login: string | null

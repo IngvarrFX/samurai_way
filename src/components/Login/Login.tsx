@@ -1,11 +1,9 @@
-import React, {ComponentType} from "react"
+import React from "react"
 import {Field, InjectedFormProps, reduxForm} from "redux-form"
 import {Input} from "../../common/FormControls/FormControls";
 import {maxLength, required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {getUserDataThunk, loginTC} from "../../redux/authReducer";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {compose} from "redux";
+import {loginTC} from "../../redux/authReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import {Redirect} from "react-router-dom";
 

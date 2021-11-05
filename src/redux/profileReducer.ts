@@ -1,9 +1,6 @@
 import {v1} from "uuid";
 import {profileStatusAPI} from "../api/api";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {AppActionsType, AppStateType, AppThunk} from "./reduxStore";
-import {AnyAction} from "redux";
-import {UserActionType, InitialStateType} from "./usersReducer";
+import {AppThunk} from "./reduxStore";
 
 
 const ADD_POST = "ADD-POST"

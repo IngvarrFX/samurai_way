@@ -23,9 +23,9 @@ type UsersContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & Ow
 
 class HeaderContainer extends React.Component<UsersContainerPropsType> {
 
-    componentDidMount() {
-        this.props.setUserData()
-    }
+    // componentDidMount() {
+    //     this.props.setUserData()
+    // }
 
     render() {
         return (
