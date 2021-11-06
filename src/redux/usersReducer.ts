@@ -59,7 +59,6 @@ export type UserActionType = FollowACType
 export const usersReducer = (state: InitialStateType = initialState, action: UserActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW: {
-            debugger
             return {...state, users: state.users.map(u => u.id === action.userId ? {...u, followed: true} : u)}
         }
         case UNFOLLOW: {
@@ -154,7 +153,7 @@ export const toggleIsFollowingAC = (isFetching: boolean, id: number): ToggleIsFo
 // type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
 
-export const getUsersThunk = (currentPage: number, count: number): AppThunk => (dispatch) => {
+export const requestUsersThunk = (currentPage: number, count: number): AppThunk => (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
     userAPI.getUsers(currentPage, count)
         .then(data => {
@@ -183,7 +182,6 @@ export const folowThunk = (userID: number): AppThunk => (dispatch) => {
     userAPI.followed(userID)
         .then(data => {
             if (data.resultCode == 0) {
-                debugger
                 dispatch(followAC(userID))
             }
             dispatch(toggleIsFollowingAC(false, userID))

@@ -57,7 +57,6 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
 
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
-    debugger
     return {
         profile: state.dialogsPage.profile,
         status: state.profilePage.status,
