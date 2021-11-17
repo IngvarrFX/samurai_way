@@ -2,7 +2,7 @@ import {userAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
 import {setProfileAC} from "./messageReducer";
 import {Dispatch} from "redux";
-import {ActionTypes} from "redux-form";
+import {updateObjectInArray} from "../utils/object-helpers";
 
 const FOLLOW = "FOLLOW"
 const UNFOLLOW = "UNFOLLOW"
@@ -59,10 +59,10 @@ export type UserActionType = FollowACType
 export const usersReducer = (state: InitialStateType = initialState, action: UserActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW: {
-            return {...state, users: state.users.map(u => u.id === action.userId ? {...u, followed: true} : u)}
+            return {...state, users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})}
         }
         case UNFOLLOW: {
-            return {...state, users: state.users.map(u => u.id === action.userId ? {...u, followed: false} : u)}
+            return {...state, users: updateObjectInArray(state.users, action.userId, 'id', {followed: false})}
         }
         case SET_USERS: {
             return {...state, users: [...action.users]}
