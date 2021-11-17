@@ -23,7 +23,7 @@ const initializedSuccsess = () => ({type: "INITIALIZED_SUCCSESS"})
 
 
 export const initializeApp = (): AppThunk => async (dispatch) => {
-    let res = await dispatch(getUserDataThunk())
+    const res = await dispatch(getUserDataThunk())
     try {
         dispatch(initializedSuccsess())
     } catch (error) {

@@ -1,6 +1,8 @@
 import {userAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
 import {setProfileAC} from "./messageReducer";
+import {Dispatch} from "redux";
+import {ActionTypes} from "redux-form";
 
 const FOLLOW = "FOLLOW"
 const UNFOLLOW = "UNFOLLOW"
@@ -47,7 +49,7 @@ const initialState: InitialStateType = {
 
 
 export type UserActionType = FollowACType
-    | unfollowACType
+    | UnfollowACType
     | SetUsersACType
     | SetTotalUsersACType
     | SetCurrentPageACType
@@ -97,11 +99,11 @@ type FollowACType = {
 export const followAC = (userId: number): FollowACType => ({type: FOLLOW, userId})
 
 
-type unfollowACType = {
+type UnfollowACType = {
     type: typeof UNFOLLOW
     userId: number
 }
-export const unfollowAC = (userId: number): unfollowACType => ({type: UNFOLLOW, userId})
+export const unfollowAC = (userId: number): UnfollowACType => ({type: UNFOLLOW, userId})
 
 
 type SetUsersACType = {
@@ -153,12 +155,12 @@ export const toggleIsFollowingAC = (isFetching: boolean, id: number): ToggleIsFo
 
 export const requestUsersThunk = (currentPage: number, count: number): AppThunk => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
-    let data = await userAPI.getUsers(currentPage, count)
+    dispatch(setCurrentPageAC(currentPage))
+    const data = await userAPI.getUsers(currentPage, count)
     try {
         dispatch(setUsersAC(data.items))
         dispatch(setTotalUsersAC(data.totalCount))
         dispatch(toggleIsFetchingAC(false))
-        dispatch(setCurrentPageAC(currentPage))
     } catch (error) {
         console.log(error)
     }
@@ -167,39 +169,32 @@ export const requestUsersThunk = (currentPage: number, count: number): AppThunk 
 }
 
 
-export const unfolowThunk = (userID: number): AppThunk => async (dispatch) => {
+const followUnfollow = async (dispatch: Dispatch, userID: number, APIMethod: any, actionCreator: (userID: number) => FollowACType | UnfollowACType) => {
     dispatch(toggleIsFollowingAC(true, userID))
-    let data = await userAPI.unFollowed(userID)
+    const data = await APIMethod(userID)
     try {
         if (data.resultCode === 0) {
-            dispatch(unfollowAC(userID))
+            dispatch(actionCreator(userID))
         }
         dispatch(toggleIsFollowingAC(false, userID))
     } catch (error) {
         console.log(error)
     }
+}
 
-
+export const unfolowThunk = (userID: number): AppThunk => async (dispatch) => {
+    followUnfollow(dispatch, userID, userAPI.unFollowed.bind(userAPI), unfollowAC)
 }
 
 
 export const folowThunk = (userID: number): AppThunk => async (dispatch) => {
-    dispatch(toggleIsFollowingAC(true, userID))
-    let data = await userAPI.followed(userID)
-    try {
-        if (data.resultCode === 0) {
-            dispatch(followAC(userID))
-        }
-        dispatch(toggleIsFollowingAC(false, userID))
-    } catch (error) {
-        console.log(error)
-    }
+    followUnfollow(dispatch, userID, userAPI.followed.bind(userAPI), followAC)
 }
 
 
 export const getProfileThunk = (userID: string): AppThunk => async (dispatch) => {
 
-    let response = await userAPI.getProfile(userID)
+    const response = await userAPI.getProfile(userID)
     try {
         dispatch(setProfileAC(response.data))
     } catch (error) {

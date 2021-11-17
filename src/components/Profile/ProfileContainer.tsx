@@ -45,8 +45,16 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
             }
         }
         this.props.getUserProfile(userId)
-        this.props.getProfileStatus(userId)
+        // this.props.getProfileStatus(userId)
+    }
+    componentDidUpdate(prevProps: Readonly<OwnProfileContainerPropsType>) {
+        if(prevProps !== this.props){
+            if(this.props.profile !== null){
+                let userId = this.props.profile.userId
+                this.props.getProfileStatus(userId)
+            }
 
+        }
     }
 
     render() {

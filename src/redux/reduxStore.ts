@@ -25,7 +25,7 @@ export type AppActionsType = AuthActionType | MessageActionType | ProfileActionT
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AppActionsType>
 
-export let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 //@ts-ignore
 window.store = store

@@ -54,7 +54,6 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
             return {...state, postsData: state.postsData.filter(p => p.id !== action.postId)}
         }
         case SET_PROFILE_STATUS: {
-            debugger
             return {...state, status: action.status}
         }
         default:
@@ -88,7 +87,7 @@ const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCr
 
 
 export const getProfileStatusThunkCr = (userID: string): AppThunk => async (dispatch) => {
-    let res = await profileStatusAPI.getProfileStatus(userID)
+    const res = await profileStatusAPI.getProfileStatus(userID)
     try {
         dispatch(setProfileStatusActionCreator(res.data))
     } catch (error) {
