@@ -22,11 +22,15 @@ export const appReducer = (state = initialState, action: ActionsType): InitialSt
 const initializedSuccsess = () => ({type: "INITIALIZED_SUCCSESS"})
 
 
-export const initializeApp = (): AppThunk => (dispatch) => {
-    let res = dispatch(getUserDataThunk())
-        .then(() => {
-            dispatch(initializedSuccsess())
-        })
+export const initializeApp = (): AppThunk => async (dispatch) => {
+    let res = await dispatch(getUserDataThunk())
+    try {
+        dispatch(initializedSuccsess())
+    } catch (error) {
+        console.log(error)
+    }
+
+
 }
 
 type ActionsType = ReturnType<typeof initializedSuccsess>

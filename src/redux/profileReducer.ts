@@ -4,12 +4,14 @@ import {AppThunk} from "./reduxStore";
 
 
 const ADD_POST = "ADD-POST"
+const DELETE_POST = "DELETE_POST"
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS"
 
 
 export type ProfileActionType =
     AddPostActionCreatorType
     | SetProfileStatusActionCreatorType
+    | DeletePostActionCreatorType
 
 
 export type PostDataType = {
@@ -48,7 +50,11 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
                 ]
             }
         }
+        case "DELETE_POST": {
+            return {...state, postsData: state.postsData.filter(p => p.id !== action.postId)}
+        }
         case SET_PROFILE_STATUS: {
+            debugger
             return {...state, status: action.status}
         }
         default:
@@ -61,6 +67,12 @@ type AddPostActionCreatorType = {
     value: string
 }
 export const addPostActionCreator = (value: string): AddPostActionCreatorType => ({type: ADD_POST, value})
+
+type DeletePostActionCreatorType = {
+    type: typeof DELETE_POST
+    postId: string
+}
+export const deletePostActionCreator = (postId: string): DeletePostActionCreatorType => ({type: DELETE_POST, postId})
 
 
 type SetProfileStatusActionCreatorType = {
@@ -75,15 +87,24 @@ const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCr
 // type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
 
-export const getProfileStatusThunkCr = (userID: string): AppThunk => async dispatch => {
-    const res = await profileStatusAPI.getProfileStatus(userID)
-    dispatch(setProfileStatusActionCreator(res.data))
+export const getProfileStatusThunkCr = (userID: string): AppThunk => async (dispatch) => {
+    let res = await profileStatusAPI.getProfileStatus(userID)
+    try {
+        dispatch(setProfileStatusActionCreator(res.data))
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 
 
 export const updateProfileStatusThunkCr = (status: string): AppThunk => async dispatch => {
     const res = await profileStatusAPI.updateProfileStatus(status)
-    if (res.data.resultCode === 0) {
-        dispatch(setProfileStatusActionCreator(status))
+    try {
+        if (res.data.resultCode === 0) {
+            dispatch(setProfileStatusActionCreator(status))
+        }
+    } catch (error) {
+        console.log(error)
     }
 }

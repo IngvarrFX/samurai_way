@@ -1,10 +1,8 @@
-import {DialogsPageType, ProfilePageType} from "./state";
 import {v1} from "uuid";
 import {
     ProfileActionType,
     addPostActionCreator,
-    profileReducer,
-    updateNewPostTextActionCreator
+    profileReducer, ProfilePageType
 } from "./profileReducer";
 
 test("shuold be add new post in state", () => {
@@ -17,10 +15,10 @@ test("shuold be add new post in state", () => {
             {id: v1(), message: 'You are the best!', likesCount: 24},
             {id: v1(), message: 'Good night!', likesCount: 15},
         ],
-        newPostText: 'it-kamasutra.com'
+        status:""
     }
 
-    const action: ProfileActionType = addPostActionCreator()
+    const action: ProfileActionType = addPostActionCreator('')
 
     const result = profileReducer(state, action)
 
@@ -29,7 +27,7 @@ test("shuold be add new post in state", () => {
 })
 
 
-test("shuold be add new post in state", () => {
+/*test("shuold be add new post in state", () => {
 
 
     const state: ProfilePageType = {
@@ -39,13 +37,13 @@ test("shuold be add new post in state", () => {
             {id: v1(), message: 'You are the best!', likesCount: 24},
             {id: v1(), message: 'Good night!', likesCount: 15},
         ],
-        newPostText: 'it-kamasutra.com'
+        status:""
     }
 
-    const action: ProfileActionType = updateNewPostTextActionCreator('my name')
+    const action: ProfileActionType = addPostActionCreator('my name')
 
     const result = profileReducer(state, action)
 
 
-    expect(result.newPostText).toBe('my name')
-})
+    expect(result.postsData.length).toBe(5)
+})*/

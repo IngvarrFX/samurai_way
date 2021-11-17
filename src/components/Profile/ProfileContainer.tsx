@@ -36,6 +36,7 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
+            //userId = '19523'
             if(this.props.profile !== null){
                 userId = this.props.profile.userId
                 if(!userId){

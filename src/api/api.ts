@@ -15,9 +15,9 @@ export const userAPI = {
             .then((response) => response.data)
     },
     getProfile(userId = `19523`) {
-       /* return instance.get(`profile/${userId}`)
-            .then((response) => response.data)*/
-        console.warn('Please use profileStatusAPI')
+        /* return instance.get(`profile/${userId}`)
+             .then((response) => response.data)*/
+        console.warn("Please use profileStatusAPI")
         return profileStatusAPI.getProfile(userId)
     },
     followed(id: number = 19523) {
@@ -33,13 +33,15 @@ export const userAPI = {
 
 export const profileStatusAPI = {
     getProfile(userId: string) {
-        return instance.get(`/profile/${userId}`)
+        return instance.get(`profile/${userId}`)
     },
     getProfileStatus(userId: string) {
-        return instance.get(`/profile/status/${userId}`)
+
+        return instance.get(`profile/status/${userId}`)
+
     },
-    updateProfileStatus(status: string){
-        return instance.put(`/profile/status`, {status})
+    updateProfileStatus(status: string) {
+        return instance.put(`profile/status`, {status})
     }
 }
 
@@ -53,12 +55,12 @@ export const authAPI = {
 
 
 export const loginAPI = {
-    login(email: string, password: string, rememberMe: boolean){
-        return instance.post(`/auth/login`,{email, password, rememberMe})
-            .then((response)=> response)
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post(`auth/login`, {email, password, rememberMe})
+            .then((response) => response)
     },
-    logOut(){
-        return instance.delete(`/auth/login`)
+    logOut() {
+        return instance.delete(`auth/login`)
             .then((response) => response)
     }
 }

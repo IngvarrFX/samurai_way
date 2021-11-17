@@ -1,7 +1,9 @@
 import {authAPI, loginAPI} from "../api/api";
-import {toggleIsFetchingAC} from "./usersReducer";
+import {toggleIsFetchingAC, ToggleIsFetchingACType} from "./usersReducer";
 import {AppThunk} from "./reduxStore";
 import {stopSubmit} from "redux-form";
+import {ThunkDispatch} from "redux-thunk";
+import {FormAction} from "redux-form/lib/actions";
 
 const SET_USER_DATA = "SET_USER_DATA"
 const SET_USER_PROFILE_DATA = "SET_USER_PROFILE_DATA"
@@ -48,7 +50,7 @@ const initialState: InitialStateType = {
     error: ""
 }
 
-export type AuthActionType = SetUserDataACType | SetUserProfileDataACType
+export type AuthActionType = SetUserDataACType | SetUserProfileDataACType | ToggleIsFetchingACType
 
 export const authReducer = (state = initialState, action: AuthActionType): InitialStateType => {
     switch (action.type) {
@@ -99,36 +101,50 @@ export const setUserProfileDataAC = (profileData: UserType): SetUserProfileDataA
 // export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
 // type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
-export const getUserDataThunk = (): AppThunk<Promise<string | void>> => dispatch => {
+export const getUserDataThunk = () => async (dispatch: ThunkDispatch<Promise<string | void>, unknown, AuthActionType>) => {
     dispatch(toggleIsFetchingAC(true))
     // const res = await authAPI.me()
     // if (res.data.resultCode === 0) {
     //     let {id, email, login} = res.data.data
     //     dispatch(setUserDataAC(id, email, login, true))
     // }
-    return authAPI.me()
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                let {id, email, login} = res.data.data
-                dispatch(setUserDataAC(id, email, login, true))
-            }
-        })
+    let res = await authAPI.me()
+    try {
+        if (res.data.resultCode === 0) {
+            let {id, email, login} = res.data.data
+            dispatch(setUserDataAC(id, email, login, true))
+        }
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 
 
-export const loginTC = (email: string, password: string, rememberMe: boolean): AppThunk => async dispatch => {
+export const loginTC = (email: string, password: string, rememberMe: boolean) => async (dispatch: ThunkDispatch<Promise<string | void>, unknown, AuthActionType | FormAction>) => {
     const res = await loginAPI.login(email, password, rememberMe)
-    if (res.data.resultCode === 0) {
-        dispatch(getUserDataThunk())
-    } else {
-        dispatch(stopSubmit("form", {_error: res.data.messages[0]}))
+    try {
+        if (res.data.resultCode === 0) {
+            dispatch(getUserDataThunk())
+        } else {
+            dispatch(stopSubmit("form", {_error: res.data.messages[0]}))
+        }
+    } catch (error) {
+        console.log(error)
     }
+
 }
 
 
 export const logOutTC = (): AppThunk => async dispatch => {
     const res = await loginAPI.logOut()
-    if (res.data.resultCode === 0) {
-        dispatch(setUserDataAC(null, null, null, false))
+    try {
+        if (res.data.resultCode === 0) {
+            dispatch(setUserDataAC(null, null, null, false))
+        }
+    } catch (error) {
+        console.log(error)
     }
+
 }
