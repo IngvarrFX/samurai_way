@@ -1,6 +1,8 @@
 import {getUserDataThunk} from "./authReducer";
 import {AppThunk} from "./reduxStore";
 
+
+
 type InitialStateType = {
     initialized: boolean
 }
@@ -12,18 +14,18 @@ const initialState = {
 
 export const appReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case "INITIALIZED_SUCCSESS":
+        case "APP/INITIALIZED_SUCCSESS":
             return {...state, initialized: true}
         default:
             return state
     }
 }
 
-const initializedSuccsess = () => ({type: "INITIALIZED_SUCCSESS"})
+const initializedSuccsess = () => ({type: "APP/INITIALIZED_SUCCSESS"})
 
 
 export const initializeApp = (): AppThunk => async (dispatch) => {
-    const res = await dispatch(getUserDataThunk())
+    await dispatch(getUserDataThunk())
     try {
         dispatch(initializedSuccsess())
     } catch (error) {

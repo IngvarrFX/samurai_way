@@ -193,7 +193,7 @@ export const folowThunk = (userID: number): AppThunk => async (dispatch) => {
 
 
 export const getProfileThunk = (userID: string): AppThunk => async (dispatch) => {
-
+debugger
     const response = await userAPI.getProfile(userID)
     try {
         dispatch(setProfileAC(response.data))

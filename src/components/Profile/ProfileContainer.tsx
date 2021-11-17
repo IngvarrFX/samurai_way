@@ -20,6 +20,7 @@ type PropsType = RouteComponentProps<PathParamsType>
 type MapStateToPropsType = {
     profile: ProfileType | null
     status: string
+    userID: number | null
 }
 
 type MapDispatchToPropsType = {
@@ -36,30 +37,37 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
+            debugger
             //userId = '19523'
-            if(this.props.profile !== null){
-                userId = this.props.profile.userId
-                if(!userId){
+            if(this.props.userID){
+                userId = this.props.userID.toString()
+            }
+                if (!userId) {
                     this.props.history.push("/login")
-                }
+
+
             }
         }
         this.props.getUserProfile(userId)
-        // this.props.getProfileStatus(userId)
-    }
-    componentDidUpdate(prevProps: Readonly<OwnProfileContainerPropsType>) {
-        if(prevProps !== this.props){
-            if(this.props.profile !== null){
-                let userId = this.props.profile.userId
-                this.props.getProfileStatus(userId)
-            }
+        this.props.getProfileStatus(userId)
 
-        }
+
     }
+
+    // componentDidUpdate(prevProps: Readonly<OwnProfileContainerPropsType>) {
+    //     if (prevProps !== this.props) {
+    //         if (this.props.profile !== null) {
+    //             let userId = this.props.profile.userId
+    //             this.props.getProfileStatus(userId)
+    //         }
+    //
+    //     }
+    // }
 
     render() {
         return (
-            <><Profile profile={this.props.profile} status={this.props.status} updateProfileStatus={this.props.updateProfileStatus}/> </>
+            <><Profile profile={this.props.profile} status={this.props.status}
+                       updateProfileStatus={this.props.updateProfileStatus}/> </>
         )
     }
 }
@@ -69,6 +77,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         profile: state.dialogsPage.profile,
         status: state.profilePage.status,
+        userID: state.auth.userID
     }
 
 }
@@ -78,5 +87,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
 
 export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-    getUserProfile: getProfileThunk, getProfileStatus: getProfileStatusThunkCr, updateProfileStatus: updateProfileStatusThunkCr
+    getUserProfile: getProfileThunk,
+    getProfileStatus: getProfileStatusThunkCr,
+    updateProfileStatus: updateProfileStatusThunkCr
 }), withRouter, withAuthRedirect)(ProfileContainer)

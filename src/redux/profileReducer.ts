@@ -78,7 +78,7 @@ type SetProfileStatusActionCreatorType = {
     type: typeof SET_PROFILE_STATUS
     status: string
 }
-const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCreatorType => (
+export const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCreatorType => (
     {type: SET_PROFILE_STATUS, status})
 
 
