@@ -169,3 +169,7 @@ type SetUserProfileDataACType = {
     type: typeof SET_USER_PROFILE_DATA
     profileData: UserType
 }
+
+
+//enums
+

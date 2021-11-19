@@ -2,7 +2,7 @@ import {userAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
 import {setProfileAC} from "./messageReducer";
 import {Dispatch} from "redux";
-import {updateObjectInArray} from "../utils/object-helpers";
+import {ObjPropNameType, updateObjectInArray} from "../utils/object-helpers";
 
 const FOLLOW = "FOLLOW"
 const UNFOLLOW = "UNFOLLOW"
@@ -59,10 +59,16 @@ export type UserActionType = FollowACType
 export const usersReducer = (state: InitialStateType = initialState, action: UserActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW: {
-            return {...state, users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})}
+            return {
+                ...state,
+                users: updateObjectInArray(state.users, action.userId, ObjPropNameType.id, {followed: true})
+            }
         }
         case UNFOLLOW: {
-            return {...state, users: updateObjectInArray(state.users, action.userId, 'id', {followed: false})}
+            return {
+                ...state,
+                users: updateObjectInArray(state.users, action.userId, ObjPropNameType.id, {followed: false})
+            }
         }
         case SET_USERS: {
             return {...state, users: [...action.users]}
@@ -193,7 +199,7 @@ export const folowThunk = (userID: number): AppThunk => async (dispatch) => {
 
 
 export const getProfileThunk = (userID: string): AppThunk => async (dispatch) => {
-debugger
+    debugger
     const response = await userAPI.getProfile(userID)
     try {
         dispatch(setProfileAC(response.data))
