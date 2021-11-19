@@ -1,7 +1,7 @@
 import React from "react";
 import { ProfileType } from "../../../redux/messageReducer";
 import style from "./ProfileInfo.module.css"
-import avatarDefault from '../../../assets/images/avatarDefault.png'
+import avatarDefault from '../../../assets/images/profile-picture.png'
 import {ProfileStatus} from "../ProfileStatus";
 import {ProfileStatusWithHooks} from "../ProfileStatusWithHooks";
 

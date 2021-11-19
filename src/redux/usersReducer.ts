@@ -31,7 +31,7 @@ export type UserType = {
 export type InitialStateType = {
     users: Array<UserType>
     totalUsers: number
-    count: number
+    usersOnPage: number
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<number>
@@ -40,7 +40,7 @@ export type InitialStateType = {
 
 const initialState: InitialStateType = {
     users: [],
-    count: 100,
+    usersOnPage: 100,
     totalUsers: 0,
     currentPage: 1,
     isFetching: true,

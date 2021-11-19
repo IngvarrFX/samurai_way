@@ -21,7 +21,7 @@ export const getCurrentPage = (state:AppStateType):number => {
 
 
 export const getCount = (state:AppStateType):number => {
-    return state.usersPage.count
+    return state.usersPage.usersOnPage
 }
 
 export const getIsFetching = (state: AppStateType): boolean=> {

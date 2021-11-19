@@ -1,6 +1,6 @@
 import React from "react"
 import {NavLink} from "react-router-dom";
-import userPhoto from "../../assets/images/avatarDefault.png";
+import userPhoto from "../../assets/images/profile-picture.png";
 import styles from "./Users.module.css";
 import {UserType} from "../../redux/usersReducer";
 
@@ -15,7 +15,7 @@ type UserPropsType = {
 
 export const User = (props: UserPropsType) => {
     return (
-        <div>
+        <div className={styles.user}>
             <span>
                         <div>
                             <NavLink to={"/profile/" + props.user.id}>

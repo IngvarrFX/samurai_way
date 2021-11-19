@@ -13,9 +13,11 @@ type HeaderPropsType = {
 export const Header = (props: HeaderPropsType) => {
     return (
         <header className={style.header}>
-            <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4MuXyd8KEmHlFuKFbMftU-rcm3zcORkaQCw&usqp=CAU"
-                alt="logo"/>
+            <NavLink to={"/"}>
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4MuXyd8KEmHlFuKFbMftU-rcm3zcORkaQCw&usqp=CAU"
+                    alt="logo"/>
+            </NavLink>
             <div className={style.loginBlock}>
                 {props.isAuth
                     ?

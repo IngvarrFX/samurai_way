@@ -5,7 +5,7 @@ import {User} from "./User";
 
 type UsersPropsType = {
     users: UserType[]
-    count: number
+    usersOnPage: number
     totalUsers: number
     currentPage: number
     follow: (userId: number) => void
@@ -22,10 +22,11 @@ export const Users = (props: UsersPropsType) => {
         <div>
             <div>
                 <Pagination
-                    totalUsers={props.totalUsers}
-                    count={props.count}
+                    totalItems={props.totalUsers}
+                    itemsOnPage={props.usersOnPage}
                     currentPage={props.currentPage}
                     onSetPage={props.onSetPage}
+                    portionSize={10}
                 />
             </div>
             <ul>

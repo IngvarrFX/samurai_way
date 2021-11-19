@@ -39,12 +39,13 @@ export const ProfileStatusWithHooks = (props:PropsType ) => {
                 {!edit
                     ?
                     <div>
-                        <span
-                            onDoubleClick={activateEdit}>Status: {props.status || "Change your profile status"}</span>
+                        <div
+                            onDoubleClick={activateEdit}><b>Status</b>: {props.status || "Change your profile status"}</div>
                         {/*<button onClick={requestStat}>request Status</button>*/}
                     </div>
                     :
                     <div>
+                        <b>Status</b>:
                         <input autoFocus onChange={changeStatus} onBlur={deActivateEdit}
                                value={status}/>
                     </div>
