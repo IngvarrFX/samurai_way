@@ -34,35 +34,32 @@ type OwnProfileContainerPropsType = MapStateToPropsType & MapDispatchToPropsType
 type OwnPropsType = {}
 
 class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
-    componentDidMount() {
+    refreshProfile() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            debugger
             //userId = '19523'
-            if(this.props.userID){
+            if (this.props.userID) {
                 userId = this.props.userID.toString()
             }
-                if (!userId) {
-                    this.props.history.push("/login")
-
-
+            if (!userId) {
+                this.props.history.push("/login")
             }
         }
         this.props.getUserProfile(userId)
         this.props.getProfileStatus(userId)
+    }
+
+    componentDidMount() {
+        this.refreshProfile()
 
 
     }
 
-    // componentDidUpdate(prevProps: Readonly<OwnProfileContainerPropsType>) {
-    //     if (prevProps !== this.props) {
-    //         if (this.props.profile !== null) {
-    //             let userId = this.props.profile.userId
-    //             this.props.getProfileStatus(userId)
-    //         }
-    //
-    //     }
-    // }
+    componentDidUpdate(prevProps: Readonly<OwnProfileContainerPropsType>) {
+        if (prevProps.match.params.userId !== this.props.match.params.userId) {
+            this.refreshProfile()
+        }
+    }
 
     render() {
         return (
