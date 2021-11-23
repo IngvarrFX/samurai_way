@@ -75,7 +75,6 @@ export const usersReducer = (state: InitialStateType = initialState, action: Use
             }
         }
         case SET_USERS: {
-            debugger
             return {...state, users: [...action.users]}
         }
         case SET_TOTAL_USERS: {

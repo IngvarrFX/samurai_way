@@ -123,7 +123,6 @@ export const updateProfileStatusThunkCr = (status: string): AppThunk => async di
 
 export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch => {
     const res = await profileStatusAPI.savePhoto(photo)
-    debugger
     try {
         if (res.data.resultCode === 0) {
             dispatch(setPhotoActionCreator(res.data.data.photos))
@@ -133,7 +132,6 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
     }
 }
 export const getProfileThunk = (userID: string): AppThunk => async (dispatch) => {
-    debugger
     const response = await userAPI.getProfile(userID)
     try {
         dispatch(setProfileAC(response.data))
@@ -178,6 +176,7 @@ type ContactsType = {
 
 export type ProfileInfoType = {
     userId: string
+    aboutMe:''
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string

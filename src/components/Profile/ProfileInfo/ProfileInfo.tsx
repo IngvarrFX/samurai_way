@@ -29,32 +29,66 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
     return (
         <div className={style.mainBlock}>
             <div className={style.descriptionBlock}>
-                <div className={style.profilePhoto}>
+                <span className={style.profilePhoto}>
                     <img src={props.profile.photos.large ? props.profile.photos.large : avatarDefault} alt=""/>
                     {props.isOwnPhoto && <input type={"file"} onChange={onMainPhotoSelected}/>}
-                </div>
+                </span>
                 <ProfileStatusWithHooks status={props.status} updateProfileStatus={props.updateProfileStatus}/>
-                <div>
-                    <span><b>FullName: </b></span>
-                    <span>{props.profile.fullName} </span>
-                    <hr></hr>
-                    <span><b>Contacts: </b></span>
-                    <div>{props.profile.contacts.vk}</div>
-                    <div>{props.profile.contacts.github}</div>
-                    <div>{props.profile.contacts.facebook}</div>
-                    <div>{props.profile.contacts.twitter}</div>
-                    <div>{props.profile.contacts.instagram}</div>
-                    <div>{props.profile.contacts.mainLink}</div>
-                    <div>{props.profile.contacts.website}</div>
-                    <div>{props.profile.contacts.youtube}</div>
-                    <hr></hr>
-                    <span><b>lookingForAJob: </b></span>
-                    <div>{props.profile.lookingForAJob ? "Yes" : "NO"}</div>
-                    <hr></hr>
-                    <span><b>lookingForAJobDescription: </b></span>
-                    <div>{props.profile.lookingForAJobDescription}</div>
-                </div>
+                <ProfileData profile={props.profile}/>
             </div>
+        </div>
+    )
+}
+
+
+
+type ProfileDataType = {
+    profile: ProfileInfoType
+}
+
+enum ObjPropNameType {
+    vk = "vk",
+    github = "github",
+    facebook = "facebook",
+    twitter = "twitter",
+    instagram = "instagram",
+    mainLink = "mainLink",
+    website = "website",
+    youtube = "youtube"
+}
+const ProfileData = (props:ProfileDataType)=> {
+    return (
+        <div>
+            <span><b>FullName: </b></span>
+            <span>{props.profile.fullName} </span>
+            <hr></hr>
+            <span><b>Contacts: </b> {Object.keys(props.profile.contacts).map((key) => {
+                debugger
+                return <Contact key={key} contactTitle={key} contactValue={props.profile.contacts[key as ObjPropNameType]}/>
+            })}</span>
+            <hr></hr>
+            <span><b>Looking for a job: </b></span>
+            <span>{props.profile.lookingForAJob ? "Yes" : "No"}</span>
+            <hr></hr>
+            <span><b>My professional skills: </b></span>
+            <div>{props.profile.lookingForAJobDescription}</div>
+            <hr></hr>
+            <span><b>About me: </b></span>
+            <div>{props.profile.aboutMe}</div>
+        </div>
+    )
+}
+
+type ContactPropsType = {
+    contactTitle: string
+    contactValue: string
+}
+
+
+const Contact = (props: ContactPropsType)=> {
+    return (
+        <div>
+            <b className={style.contacts}>{props.contactTitle}</b>:{props.contactValue}
         </div>
     )
 }
