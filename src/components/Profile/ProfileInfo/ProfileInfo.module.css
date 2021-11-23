@@ -5,4 +5,20 @@
 .descriptionBlock img{
     width: 300px;
     height: 300px;
+    border-radius: 15px;
 }
+.profilePhoto {
+    max-width: 300px;
+}
+.profilePhoto input{
+    display: none;
+}
+.profilePhoto:hover input{
+    display: block;
+    position: absolute;
+    top: 350px;
+    left: 570px;
+
+}
+
+

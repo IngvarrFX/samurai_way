@@ -1,13 +1,18 @@
 import React, {ComponentType} from "react";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {ProfileType} from "../../redux/messageReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import {Profile} from "./Profile";
 import {RouteComponentProps, withRouter} from "react-router";
-import {getProfileThunk} from "../../redux/usersReducer";
+
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {getProfileStatusThunkCr, updateProfileStatusThunkCr} from "../../redux/profileReducer";
+import {
+    getProfileStatusThunkCr,
+    getProfileThunk,
+    ProfileInfoType,
+    savePhotoSuccessThunkCr,
+    updateProfileStatusThunkCr
+} from "../../redux/profileReducer";
 
 
 type PathParamsType = {
@@ -18,7 +23,7 @@ type PathParamsType = {
 type PropsType = RouteComponentProps<PathParamsType>
 
 type MapStateToPropsType = {
-    profile: ProfileType | null
+    profile: ProfileInfoType | null
     status: string
     userID: number | null
 }
@@ -27,6 +32,7 @@ type MapDispatchToPropsType = {
     getUserProfile: (userID: string) => void
     getProfileStatus: (status: string) => void
     updateProfileStatus: (status: string) => void
+    savePhoto: (file: File)=> void
 }
 
 type OwnProfileContainerPropsType = MapStateToPropsType & MapDispatchToPropsType & PropsType & OwnPropsType
@@ -63,8 +69,12 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
 
     render() {
         return (
-            <><Profile profile={this.props.profile} status={this.props.status}
-                       updateProfileStatus={this.props.updateProfileStatus}/> </>
+            <><Profile
+                profile={this.props.profile}
+                status={this.props.status}
+                isOwnPhoto={!this.props.match.params.userId}
+                savePhoto={this.props.savePhoto}
+                updateProfileStatus={this.props.updateProfileStatus}/> </>
         )
     }
 }
@@ -72,7 +82,7 @@ class ProfileContainer extends React.Component<OwnProfileContainerPropsType> {
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        profile: state.dialogsPage.profile,
+        profile: state.profilePage.profile,
         status: state.profilePage.status,
         userID: state.auth.userID
     }
@@ -86,5 +96,8 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     getUserProfile: getProfileThunk,
     getProfileStatus: getProfileStatusThunkCr,
-    updateProfileStatus: updateProfileStatusThunkCr
+    updateProfileStatus: updateProfileStatusThunkCr,
+    savePhoto: savePhotoSuccessThunkCr
 }), withRouter, withAuthRedirect)(ProfileContainer)
+
+

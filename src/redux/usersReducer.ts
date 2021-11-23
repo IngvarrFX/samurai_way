@@ -1,9 +1,10 @@
 import {userAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
-import {setProfileAC} from "./messageReducer";
 import {Dispatch} from "redux";
 import {ObjPropNameType, updateObjectInArray} from "../utils/object-helpers";
 
+
+//consts
 const FOLLOW = "FOLLOW"
 const UNFOLLOW = "UNFOLLOW"
 const SET_USERS = "SET-USERS"
@@ -13,6 +14,7 @@ const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING"
 const TOGGLE_IS_FOLLOWING_IN_PROGRESS = "TOGGLE_IS_FOLLOWING_IN_PROGRESS"
 
 
+//types
 export type UserType = {
     id: number
     firstName?: string
@@ -21,10 +23,11 @@ export type UserType = {
     followed: boolean
     location: { country: string, city: string }
     photoUser?: string
-    photos: {
-        small: string,
-        large: string
-    }
+    photos: PhotosType
+}
+type PhotosType = {
+    small: string,
+    large: string
 }
 
 
@@ -56,6 +59,7 @@ export type UserActionType = FollowACType
     | ToggleIsFetchingACType
     | ToggleIsFollowingACType
 
+
 export const usersReducer = (state: InitialStateType = initialState, action: UserActionType): InitialStateType => {
     switch (action.type) {
         case FOLLOW: {
@@ -71,6 +75,7 @@ export const usersReducer = (state: InitialStateType = initialState, action: Use
             }
         }
         case SET_USERS: {
+            debugger
             return {...state, users: [...action.users]}
         }
         case SET_TOTAL_USERS: {
@@ -90,13 +95,14 @@ export const usersReducer = (state: InitialStateType = initialState, action: Use
                     : state.followingInProgress.filter(id => id !== action.id)
             }
         }
+
         default:
             return state
     }
 
 }
 
-
+//actions
 type FollowACType = {
     type: typeof FOLLOW
     userId: number
@@ -155,9 +161,13 @@ export const toggleIsFollowingAC = (isFetching: boolean, id: number): ToggleIsFo
 })
 
 
+
+
 // export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
 // type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
 
+
+//thunks
 
 export const requestUsersThunk = (currentPage: number, count: number): AppThunk => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true))
@@ -198,16 +208,7 @@ export const folowThunk = (userID: number): AppThunk => async (dispatch) => {
 }
 
 
-export const getProfileThunk = (userID: string): AppThunk => async (dispatch) => {
-    debugger
-    const response = await userAPI.getProfile(userID)
-    try {
-        dispatch(setProfileAC(response.data))
-    } catch (error) {
-        console.log(error)
-    }
 
-}
 
 
 

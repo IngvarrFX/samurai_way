@@ -3,7 +3,7 @@ import {v1} from "uuid";
 
 export type MessageActionType =
     AddMessageActionCreatorType
-    | SetProfileACType
+  /*  | SetProfileACType*/
 
 export const ADD_MESSAGE = "ADD-MESSAGE"
 export const SET_PROFILE = "SET_PROFILE"
@@ -20,29 +20,7 @@ export type DialogsType = {
     name: string
 }
 
-type ContactsType = {
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
-}
-type PhotosType = {
-    small: string | null
-    large: string | null
-}
-export type ProfileType = {
-    userId: string
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    contacts: ContactsType
-    photos: PhotosType
 
-}
 
 
 const initialState = {
@@ -62,7 +40,7 @@ const initialState = {
         {id: v1(), message: "You good!", likesCount: 55},
         {id: v1(), message: "My name is Mike", likesCount: 12},
     ],
-    profile: null as ProfileType | null,
+   /* profile: null as ProfileType | null,*/
 }
 export type InitialStateType = typeof initialState
 
@@ -79,9 +57,9 @@ export const messageReducer = (state: InitialStateType = initialState, action: M
                 ]
             }
         }
-        case SET_PROFILE: {
+        /*case SET_PROFILE: {
             return {...state, profile: action.profile}
-        }
+        }*/
         default:
             return state
     }
@@ -97,10 +75,10 @@ export const addMessageActionCreator = (newMessage: string): AddMessageActionCre
 } as const)
 
 
-type SetProfileACType = {
+/*type SetProfileACType = {
     type: typeof SET_PROFILE
     profile: ProfileType
 }
 export const setProfileAC = (profile: ProfileType): SetProfileACType => (
     {type: SET_PROFILE, profile} as const
-)
+)*/
