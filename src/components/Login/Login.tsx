@@ -56,7 +56,6 @@ type LoginPropsType = {
 
 const Login = (props: LoginPropsType) => {
     const onSubmit = (formData: LoginFormType) => {
-        //loginAPI.login(formData.login, formData.password, formData.rememberMe)
         props.login(formData.login, formData.password, formData.rememberMe)
     }
     if (props.isAuth) {
@@ -76,8 +75,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 }
 
-
-// export default compose<ComponentType>(connect(null, {
-//     login: loginTC
-// }),withAuthRedirect)(Login)
 export default connect(mapStateToProps, {login: loginTC})(Login)

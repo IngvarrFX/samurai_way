@@ -1,4 +1,5 @@
 import axios from "axios";
+import {ContactsType} from "../redux/profileReducer";
 
 
 const instance = axios.create({
@@ -14,17 +15,12 @@ export const userAPI = {
         return instance.get(`users?page=${currentPage}&count=${count}`)
             .then((response) => response.data)
     },
-    getProfile(userId = `19523`) {
-        /* return instance.get(`profile/${userId}`)
-             .then((response) => response.data)*/
-        console.warn("Please use profileStatusAPI")
-        return profileStatusAPI.getProfile(userId)
-    },
-    followed(id: number = 19523) {
+
+    followed(id: number) {
         return instance.post(`follow/${id}`).then((response) => response.data)
 
     },
-    unFollowed(id: number = 19523) {
+    unFollowed(id: number) {
         return instance.delete(`follow/${id}`).then((response) => response.data)
 
     },
@@ -32,10 +28,10 @@ export const userAPI = {
 
 
 export const profileStatusAPI = {
-    getProfile(userId: string) {
+    getProfile(userId: number) {
         return instance.get(`profile/${userId}`)
     },
-    getProfileStatus(userId: string) {
+    getProfileStatus(userId: number) {
 
         return instance.get(`profile/status/${userId}`)
 
@@ -51,6 +47,13 @@ export const profileStatusAPI = {
                 "Content-Type": "multypart/form-data"
             }
         })
+    }
+}
+
+export const profileDataAPI = {
+    updateProfileData(data: ProfileDataType) {
+        debugger
+        return instance.put(`profile`, data)
     }
 }
 
@@ -74,6 +77,16 @@ export const loginAPI = {
     }
 }
 
+
+//types
+
+export type ProfileDataType = {
+    userId: string
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+}
 
 
 

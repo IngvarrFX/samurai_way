@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {profileStatusAPI, userAPI} from "../api/api";
+import {profileDataAPI, ProfileDataType, profileStatusAPI, userAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
 
 
@@ -99,7 +99,7 @@ export const setProfileAC = (profile: ProfileInfoType): SetProfileACType => (
 
 
 //thunks
-export const getProfileStatusThunkCr = (userID: string): AppThunk => async (dispatch) => {
+export const getProfileStatusThunkCr = (userID: number): AppThunk => async (dispatch) => {
     const res = await profileStatusAPI.getProfileStatus(userID)
     try {
         dispatch(setProfileStatusActionCreator(res.data))
@@ -108,7 +108,6 @@ export const getProfileStatusThunkCr = (userID: string): AppThunk => async (disp
     }
 
 }
-
 
 export const updateProfileStatusThunkCr = (status: string): AppThunk => async dispatch => {
     const res = await profileStatusAPI.updateProfileStatus(status)
@@ -131,14 +130,30 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
         console.log(error)
     }
 }
-export const getProfileThunk = (userID: string): AppThunk => async (dispatch) => {
-    const response = await userAPI.getProfile(userID)
+
+export const updateProfileDataThunkCr = (data:ProfileDataType): AppThunk => async (dispatch,getState) => {
+    const userId = getState().auth.userID
+    const res = await profileDataAPI.updateProfileData(data!)
     try {
-        dispatch(setProfileAC(response.data))
+        if (res.data.resultCode === 0) {
+            if(userId){
+                dispatch(getProfileThunk(userId))
+            }
+        }
     } catch (error) {
         console.log(error)
     }
+}
 
+export const getProfileThunk = (userID: number): AppThunk => async (dispatch) => {
+    //const res = await userAPI.getProfile(userID)
+    debugger
+    const res = await profileStatusAPI.getProfile(userID)
+    try {
+        dispatch(setProfileAC(res.data))
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
@@ -162,7 +177,7 @@ export type PostDataType = {
 }
 
 
-type ContactsType = {
+export type ContactsType = {
     github: string
     vk: string
     facebook: string

@@ -1,7 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import style from "./ProfileStatus.module.css"
-import {useDispatch} from "react-redux";
-import {getProfileStatusThunkCr} from "../../redux/profileReducer";
 
 type PropsType = {
     status: string
@@ -11,7 +9,6 @@ type PropsType = {
 
 export const ProfileStatusWithHooks = (props:PropsType ) => {
 
-    const dispatch = useDispatch()
 
         const [edit, setEdit]=useState(false)
         const [status, setStatus]=useState(props.status)
@@ -25,9 +22,6 @@ export const ProfileStatusWithHooks = (props:PropsType ) => {
         const deActivateEdit = () => {
             setEdit(false)
             props.updateProfileStatus(status)
-        }
-        const requestStat = () => {
-            dispatch(getProfileStatusThunkCr('19523'))
         }
 
         useEffect(()=> {

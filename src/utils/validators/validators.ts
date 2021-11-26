@@ -1,4 +1,4 @@
-type ValidatorsType = (value: string) => string | undefined
+export type ValidatorsType = (value: string) => string | undefined
 
 
 export const required: ValidatorsType = (value) => value ? undefined : "Field is required"
@@ -6,6 +6,9 @@ export const required: ValidatorsType = (value) => value ? undefined : "Field is
 
 type MaxLengthType = (max: number) => (value: string) => string | undefined
 
-export const maxLength: MaxLengthType = (max: number) => (value) =>
-    value && value.length > max ? `Must be ${max} characters or less` : undefined
+export const maxLength: MaxLengthType = (maxLength: number): ValidatorsType => (value) => {
+    if (value.length > maxLength) return `Max length is ${maxLength} symbols`;
+    return undefined;
+}
+// value && value.length > maxLength ? `Must be ${maxLength} characters or less` : undefined
 
