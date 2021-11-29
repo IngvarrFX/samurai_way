@@ -1,7 +1,7 @@
+import {stopSubmit} from "redux-form";
 import {v1} from "uuid";
 import {profileDataAPI, ProfileDataType, profileStatusAPI, userAPI} from "../api/api";
 import {AppThunk} from "./reduxStore";
-
 
 
 const ADD_POST = "ADD-POST"
@@ -9,8 +9,7 @@ const DELETE_POST = "DELETE_POST"
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS"
 const SET_PHOTO = "SET_PHOTO"
 const SET_PROFILE = "SET_PROFILE"
-
-
+const SET_ERROR = "SET_ERROR"
 
 
 const initialState: ProfilePageType = {
@@ -20,8 +19,9 @@ const initialState: ProfilePageType = {
         {id: v1(), message: "You are the best!", likesCount: 24},
         {id: v1(), message: "Good night!", likesCount: 15},
     ],
-    profile: null as null | ProfileInfoType,
-    status: ""
+    profile: null as ProfileInfoType | null,
+    status: "",
+    errorUpdate: null as null | string,
 }
 
 
@@ -48,51 +48,30 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
             return {...state, profile: action.profile}
         }
         case SET_PHOTO: {
-
-            debugger
             //@ts-ignore
             return {...state, profile: {...state.profile, photos: action.photo}}
+        }
+        case SET_ERROR: {
+            return {...state, errorUpdate: action.error}
         }
         default:
             return state
     }
 }
 
-type AddPostActionCreatorType = {
-    type: typeof ADD_POST
-    value: string
-}
+//actions
 export const addPostActionCreator = (value: string): AddPostActionCreatorType => ({type: ADD_POST, value})
 
-type DeletePostActionCreatorType = {
-    type: typeof DELETE_POST
-    postId: string
-}
 export const deletePostActionCreator = (postId: string): DeletePostActionCreatorType => ({type: DELETE_POST, postId})
 
+export const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCreatorType => ({type: SET_PROFILE_STATUS, status})
 
-type SetProfileStatusActionCreatorType = {
-    type: typeof SET_PROFILE_STATUS
-    status: string
-}
-export const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCreatorType => (
-    {type: SET_PROFILE_STATUS, status})
-
-
-type SetPhotoActionCreatorType = {
-    type: typeof SET_PHOTO
-    photo: PhotosType
-}
 export const setPhotoActionCreator = (photo: PhotosType): SetPhotoActionCreatorType => ({type: SET_PHOTO, photo})
 
+export const setProfileAC = (profile: ProfileInfoType): SetProfileACType => ({type: SET_PROFILE, profile} as const)
 
-type SetProfileACType = {
-    type: typeof SET_PROFILE
-    profile: ProfileInfoType
-}
-export const setProfileAC = (profile: ProfileInfoType): SetProfileACType => (
-    {type: SET_PROFILE, profile} as const
-)
+export const setErrorAC = (error: string): SetErrorACType => ({type: SET_ERROR, error} as const)
+
 
 // export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
 // type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
@@ -131,14 +110,19 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
     }
 }
 
-export const updateProfileDataThunkCr = (data:ProfileDataType): AppThunk => async (dispatch,getState) => {
+export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): AppThunk => async (dispatch, getState) => {
     const userId = getState().auth.userID
-    const res = await profileDataAPI.updateProfileData(data!)
+    const res = await profileDataAPI.updateProfileData(dataProfile!)
     try {
         if (res.data.resultCode === 0) {
-            if(userId){
+            if (userId) {
                 dispatch(getProfileThunk(userId))
+            } else {
+                throw new Error("userId can't be null")
             }
+        } else {
+            dispatch(stopSubmit("profileForm", {_error: res.data.messages[0]}))
+            dispatch(setErrorAC(res.data.messages[0]))
         }
     } catch (error) {
         console.log(error)
@@ -147,7 +131,6 @@ export const updateProfileDataThunkCr = (data:ProfileDataType): AppThunk => asyn
 
 export const getProfileThunk = (userID: number): AppThunk => async (dispatch) => {
     //const res = await userAPI.getProfile(userID)
-    debugger
     const res = await profileStatusAPI.getProfile(userID)
     try {
         dispatch(setProfileAC(res.data))
@@ -159,6 +142,32 @@ export const getProfileThunk = (userID: number): AppThunk => async (dispatch) =>
 
 //types
 
+type SetErrorACType = {
+    type: typeof SET_ERROR
+    error: string
+}
+
+type SetProfileACType = {
+    type: typeof SET_PROFILE
+    profile: ProfileInfoType
+}
+
+type AddPostActionCreatorType = {
+    type: typeof ADD_POST
+    value: string
+}
+type DeletePostActionCreatorType = {
+    type: typeof DELETE_POST
+    postId: string
+}
+type SetProfileStatusActionCreatorType = {
+    type: typeof SET_PROFILE_STATUS
+    status: string
+}
+type SetPhotoActionCreatorType = {
+    type: typeof SET_PHOTO
+    photo: PhotosType
+}
 
 
 export type ProfileActionType =
@@ -166,8 +175,8 @@ export type ProfileActionType =
     | SetProfileStatusActionCreatorType
     | DeletePostActionCreatorType
     | SetPhotoActionCreatorType
-    |SetProfileACType
-
+    | SetProfileACType
+    | SetErrorACType
 
 
 export type PostDataType = {
@@ -191,7 +200,7 @@ export type ContactsType = {
 
 export type ProfileInfoType = {
     userId: string
-    aboutMe:''
+    aboutMe: ""
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
@@ -213,12 +222,13 @@ export type ProfileType = {
 
 
 type PhotosType = {
-    small: string,
-    large: string
+    small: string | null,
+    large: string | null
 }
 
 export type ProfilePageType = {
     postsData: Array<PostDataType>
     profile: ProfileInfoType | null
     status: string
+    errorUpdate: null | string
 }

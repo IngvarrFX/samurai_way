@@ -6,6 +6,8 @@ import {ProfileInfoType} from "../../../redux/profileReducer";
 import {ProfileData} from "./ProfileData";
 import ProfileDataForm from "../ProfileDataForm";
 import {ProfileDataType} from "../../../api/api";
+import {useSelector} from "react-redux";
+import {AppStateType} from "../../../redux/reduxStore";
 
 
 type ProfileInfoPropsType = {
@@ -19,10 +21,15 @@ type ProfileInfoPropsType = {
 
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
+    const error = useSelector<AppStateType, string | null>(state => state.profilePage.errorUpdate)
+
     const [edit, setEdit] = useState(false)
     const onSubmit = (formData: ProfileInfoType) => {
         props.updateProfileData(formData)
-        setEdit(false)
+        if (error) {
+            setEdit(false)
+        }
+
     }
 
     const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {

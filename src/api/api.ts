@@ -52,7 +52,6 @@ export const profileStatusAPI = {
 
 export const profileDataAPI = {
     updateProfileData(data: ProfileDataType) {
-        debugger
         return instance.put(`profile`, data)
     }
 }
