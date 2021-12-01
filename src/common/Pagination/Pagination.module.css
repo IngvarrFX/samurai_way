@@ -1,9 +1,23 @@
-.selectedPage{
+.selectedPage {
     font-weight: bold;
 }
 
-.pagination{
+.paginationBlock {
     display: flex;
     justify-content: center;
     margin-top: 30px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    min-width: 410px;
+    max-width: 410px;
+}
+
+.pageNumber {
+    min-width: 250px;
+    display: flex;
+    justify-content: space-around;
+}
+

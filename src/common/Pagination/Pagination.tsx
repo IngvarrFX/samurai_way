@@ -23,28 +23,30 @@ export const Pagination = (props: PaginationPropsType) => {
 
 
     return (
-        <div className={styles.pagination}>
-            <div>
-                <button disabled={portionNumber <= 1} onClick={() => {
-                    setPortionNumber(portionNumber - 1)
-                }}>PREV
-                </button>
-            </div>
-            <div>
-                {pages
-                    .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                    .map((p, index) => {
+        <div className={styles.paginationBlock}>
+            <div className={styles.pagination}>
+                <div>
+                    <button disabled={portionNumber <= 1} onClick={() => {
+                        setPortionNumber(portionNumber - 1)
+                    }}>PREV
+                    </button>
+                </div>
+                <div className={styles.pageNumber}>
+                    {pages
+                        .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                        .map((p, index) => {
 
-                        return <span key={index} onClick={() => {
-                            props.onSetPage(p)
-                        }} className={props.currentPage === p ? styles.selectedPage : ""}> {p} </span>
-                    })}
-            </div>
-            <div>
-                <button disabled={portionCount <= portionNumber} onClick={() => {
-                    setPortionNumber(portionNumber + 1)
-                }}>NEXT
-                </button>
+                            return <button key={index} onClick={() => {
+                                props.onSetPage(p)
+                            }} className={props.currentPage === p ? styles.selectedPage : ""}> {p} </button>
+                        })}
+                </div>
+                <div>
+                    <button disabled={portionCount <= portionNumber} onClick={() => {
+                        setPortionNumber(portionNumber + 1)
+                    }}>NEXT
+                    </button>
+                </div>
             </div>
         </div>
     )

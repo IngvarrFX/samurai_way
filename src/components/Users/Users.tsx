@@ -26,7 +26,7 @@ export const Users = (props: UsersPropsType) => {
                     itemsOnPage={props.usersOnPage}
                     currentPage={props.currentPage}
                     onSetPage={props.onSetPage}
-                    portionSize={10}
+                    portionSize={5}
                 />
             </div>
             <ul>

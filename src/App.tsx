@@ -1,7 +1,7 @@
 import React, {ComponentType} from "react";
 import "./App.css";
 import {NavBar} from "./components/NavBar/NavBar";
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import HeaderContainerComponent from "./components/Header/HeaderContainer";
 import {compose} from "redux";
 import {connect} from "react-redux";
@@ -42,10 +42,14 @@ class App extends React.Component<AppPropsType> {
                     <HeaderContainerComponent/>
                     <NavBar/>
                     <div className="app-wrapper-content">
-                        <Route path="/dialogs" render={withSuspense(DialogsContainer)}/>
-                        <Route path="/profile/:userId?" render={withSuspense(ProfileContainerComponent)}/>
-                        <Route path="/users" render={withSuspense(UsersContainerComponent)}/>
-                        <Route path="/login" render={withSuspense(Login)}/>
+                        <Switch>
+                            <Route exact path="/" render={() => <Redirect to={"/profile"}/>}/>
+                            <Route path="/dialogs" render={withSuspense(DialogsContainer)}/>
+                            <Route path="/profile/:userId?" render={withSuspense(ProfileContainerComponent)}/>
+                            <Route path="/users" render={withSuspense(UsersContainerComponent)}/>
+                            <Route path="/login" render={withSuspense(Login)}/>
+                            <Route path="*" render={() => <h1>404 Page not found</h1>}/>
+                        </Switch>
                     </div>
                 </div>
             </BrowserRouter>
