@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {ContactsType} from "../redux/profileReducer";
 
 
@@ -66,14 +66,22 @@ export const authAPI = {
 
 
 export const loginAPI = {
-    login(email: string, password: string, rememberMe: boolean) {
-        return instance.post(`auth/login`, {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean, captcha: string) {
+        return instance.post(`auth/login`, {email, password, rememberMe, captcha})
             .then((response) => response)
     },
     logOut() {
         return instance.delete(`auth/login`)
             .then((response) => response)
-    }
+    },
+
+}
+
+export const securityAPI = {
+    getCapcha() {
+        return instance.get(`security/get-captcha-url`)
+            .then((response) => response)
+    },
 }
 
 

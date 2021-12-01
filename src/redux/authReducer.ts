@@ -1,4 +1,4 @@
-import {authAPI, loginAPI} from "../api/api";
+import {authAPI, loginAPI, securityAPI} from "../api/api";
 import {toggleIsFetchingAC, ToggleIsFetchingACType} from "./usersReducer";
 import {AppThunk} from "./reduxStore";
 import {stopSubmit} from "redux-form";
@@ -7,8 +7,7 @@ import {FormAction} from "redux-form/lib/actions";
 
 const SET_USER_DATA = "SET_USER_DATA"
 const SET_USER_PROFILE_DATA = "SET_USER_PROFILE_DATA"
-
-
+const SET_CAPTCHA_URL = "SET_CAPTCHA_URL"
 
 
 const initialState = {
@@ -17,21 +16,30 @@ const initialState = {
     login: null as string | null,
     isAuth: false,
     user: null as UserType | null,
-    error: ""
+    error: "",
+    captchaUrl: null as string | null,
 }
 type InitialStateType = typeof initialState
-
 
 
 export const authReducer = (state = initialState, action: AuthActionType): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA: {
-            return {...state, userID: action.payload.userID, email: action.payload.email, isAuth: action.payload.isAuth, login: action.payload.login}
+            return {
+                ...state,
+                userID: action.payload.userID,
+                email: action.payload.email,
+                isAuth: action.payload.isAuth,
+                login: action.payload.login
+            }
         }
         case SET_USER_PROFILE_DATA: {
             return {
                 ...state, user: action.profileData
             }
+        }
+        case SET_CAPTCHA_URL: {
+            return {...state, captchaUrl: action.captchaUrl}
         }
         default:
             return state
@@ -42,13 +50,7 @@ export const authReducer = (state = initialState, action: AuthActionType): Initi
 //actions
 export const setUserDataAC = (userID: number | null, email: string | null, login: string | null, isAuth: boolean): SetUserDataACType => ({
     type: SET_USER_DATA,
-    payload: {
-        userID,
-        email,
-        login,
-        isAuth
-    }
-
+    payload: {userID, email, login, isAuth}
 })
 
 
@@ -56,11 +58,14 @@ export const setUserProfileDataAC = (profileData: UserType): SetUserProfileDataA
     type: SET_USER_PROFILE_DATA,
     profileData
 })
+export const setCaptchaUrlAC = (captchaUrl: string): SetCapchaUrlACType => ({
+    type: SET_CAPTCHA_URL,
+    captchaUrl
+})
 
 
 // export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
 // type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
-
 
 
 //thunks
@@ -85,18 +90,31 @@ export const getUserDataThunk = () => async (dispatch: ThunkDispatch<Promise<str
 }
 
 
-export const loginTC = (email: string, password: string, rememberMe: boolean) => async (dispatch: ThunkDispatch<Promise<string | void>, unknown, AuthActionType | FormAction>) => {
-    const res = await loginAPI.login(email, password, rememberMe)
+export const loginTC = (email: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: ThunkDispatch<Promise<string | void>, unknown, AuthActionType | FormAction>) => {
+    const res = await loginAPI.login(email, password, rememberMe, captcha)
     try {
         if (res.data.resultCode === 0) {
             dispatch(getUserDataThunk())
         } else {
+            if (res.data.resultCode === 10) {
+                dispatch(getCaptchaTC())
+            }
             dispatch(stopSubmit("form", {_error: res.data.messages[0]}))
         }
     } catch (error) {
         console.log(error)
     }
 
+}
+
+export const getCaptchaTC = () => async (dispatch: ThunkDispatch<Promise<string | void>, unknown, AuthActionType | FormAction>) => {
+    const res = await securityAPI.getCapcha()
+    try {
+        const captchaUrl = res.data.url
+        dispatch(setCaptchaUrlAC(captchaUrl))
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
@@ -148,10 +166,13 @@ export type UserType = {
 
 } | null
 
-export type AuthActionType = SetUserDataACType | SetUserProfileDataACType | ToggleIsFetchingACType
+export type AuthActionType = SetUserDataACType
+    | SetUserProfileDataACType
+    | ToggleIsFetchingACType
+    | SetCapchaUrlACType
 
 
-type SetUserDataActionPayloadType ={
+type SetUserDataActionPayloadType = {
     userID: number | null
     email: string | null
     login: string | null
@@ -167,6 +188,10 @@ type SetUserDataACType = {
 type SetUserProfileDataACType = {
     type: typeof SET_USER_PROFILE_DATA
     profileData: UserType
+}
+type SetCapchaUrlACType = {
+    type: typeof SET_CAPTCHA_URL
+    captchaUrl: string
 }
 
 
