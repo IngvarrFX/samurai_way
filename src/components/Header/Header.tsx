@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./Header.module.css"
 import {NavLink} from "react-router-dom";
+import {Button} from "@mui/material";
 
 type HeaderPropsType = {
     login: string | null
@@ -23,7 +24,7 @@ export const Header = (props: HeaderPropsType) => {
                     ?
                     <div>
                         {props.login}
-                        <button onClick={props.logOut}>Log out</button>
+                        <Button variant={"contained"} onClick={props.logOut}>Log out</Button>
                     </div>
 
                     :

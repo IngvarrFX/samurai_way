@@ -1,7 +1,8 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import {UserType} from "../../redux/usersReducer";
-import {Pagination} from "../../common/Pagination/Pagination";
+import {Paginator} from "../../common/Pagination/Paginator";
 import {User} from "./User";
+
 
 type UsersPropsType = {
     users: UserType[]
@@ -18,16 +19,19 @@ type UsersPropsType = {
 
 export const Users = (props: UsersPropsType) => {
 
+
+
     return (
         <div>
             <div>
-                <Pagination
+                <Paginator
                     totalItems={props.totalUsers}
                     itemsOnPage={props.usersOnPage}
                     currentPage={props.currentPage}
                     onSetPage={props.onSetPage}
                     portionSize={5}
                 />
+                {/*<Pagination onChange={setPageHandler} count={10} page={props.currentPage} color="primary" />*/}
             </div>
             <ul>
                 {props.users.map(u => {
