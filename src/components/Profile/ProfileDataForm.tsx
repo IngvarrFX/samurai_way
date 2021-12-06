@@ -48,15 +48,9 @@ export const ProfileForm: React.FC<InjectedFormProps<ProfileInfoType, ProfileDat
             <div>
                 <Field component="input" name="lookingForAJob" type="checkbox"/> Looking for a job
             </div>
-            {/*<div>
-                <b>Contacts</b>:  {Object.keys(props.profile.contacts).map((key) => {
-                return <div key={key}><b>{key}:<Field placeholder={key} component={Input} name={"contacts." + {key}} type="text"
-                                            validate={[required, maxLength100]}/></b></div>
-            })}
-            </div>*/}
             <div>
                 <b>Contacts</b>: {Object.keys(props.profile.contacts).map(key => {
-                return <div key={key} >
+                return <div key={key}>
                     {/* todo: create some solution for embedded objects */}
                     <b>{key}: {createField(key, "contacts." + key, [], Input)}</b>
                 </div>
@@ -64,7 +58,7 @@ export const ProfileForm: React.FC<InjectedFormProps<ProfileInfoType, ProfileDat
             </div>
             {props.error &&
             <div>
-                {props.error}
+                <strong>{props.error}</strong>
             </div>
             }
             <div>

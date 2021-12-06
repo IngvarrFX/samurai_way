@@ -6,8 +6,6 @@ import {ProfileInfoType} from "../../../redux/profileReducer";
 import {ProfileData} from "./ProfileData";
 import ProfileDataForm from "../ProfileDataForm";
 import {ProfileDataType} from "../../../api/api";
-import {useSelector} from "react-redux";
-import {AppStateType} from "../../../redux/reduxStore";
 
 
 type ProfileInfoPropsType = {
@@ -16,20 +14,14 @@ type ProfileInfoPropsType = {
     updateProfileStatus: (status: string) => void
     isOwnPhoto: boolean
     savePhoto: (file: File) => void
-    updateProfileData: (data: ProfileDataType) => void
+    updateProfileData: (data: ProfileDataType) => Promise<any>
 }
 
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    const error = useSelector<AppStateType, string | null>(state => state.profilePage.errorUpdate)
-
     const [edit, setEdit] = useState(false)
     const onSubmit = (formData: ProfileInfoType) => {
-        props.updateProfileData(formData)
-        if (error) {
-            setEdit(false)
-        }
-
+        let pr = props.updateProfileData(formData).then(()=> {setEdit(false)})
     }
 
     const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +43,10 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     status={props.status}
                     updateProfileStatus={props.updateProfileStatus}/>
                 {edit
-                    ? <ProfileDataForm initialValues={props.profile} profile={props.profile} onSubmit={onSubmit}/>
+                    ? <ProfileDataForm
+                        initialValues={props.profile}
+                        profile={props.profile}
+                        onSubmit={onSubmit}/>
                     : <ProfileData
                         profile={props.profile}
                         isOwnPhoto={props.isOwnPhoto}

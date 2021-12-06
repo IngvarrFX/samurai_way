@@ -12,7 +12,7 @@ type ProfilePropsType = {
     updateProfileStatus: (status: string) => void
     isOwnPhoto: boolean
     savePhoto: (file: File) => void
-    updateProfileData: (data: ProfileDataType) => void
+    updateProfileData: (data: ProfileDataType) => Promise<any>
 }
 
 export const Profile = (props: ProfilePropsType) => {

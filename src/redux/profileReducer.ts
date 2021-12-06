@@ -1,7 +1,9 @@
-import {stopSubmit} from "redux-form";
+import {FormAction, stopSubmit} from "redux-form";
 import {v1} from "uuid";
-import {profileDataAPI, ProfileDataType, profileStatusAPI, userAPI} from "../api/api";
-import {AppThunk} from "./reduxStore";
+import {profileDataAPI, ProfileDataType, profileStatusAPI} from "../api/api";
+import {AppActionsType, AppStateType, AppThunk} from "./reduxStore";
+import {ThunkAction} from "redux-thunk";
+import {Dispatch} from "redux";
 
 
 const ADD_POST = "ADD-POST"
@@ -64,7 +66,10 @@ export const addPostActionCreator = (value: string): AddPostActionCreatorType =>
 
 export const deletePostActionCreator = (postId: string): DeletePostActionCreatorType => ({type: DELETE_POST, postId})
 
-export const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCreatorType => ({type: SET_PROFILE_STATUS, status})
+export const setProfileStatusActionCreator = (status: string): SetProfileStatusActionCreatorType => ({
+    type: SET_PROFILE_STATUS,
+    status
+})
 
 export const setPhotoActionCreator = (photo: PhotosType): SetPhotoActionCreatorType => ({type: SET_PHOTO, photo})
 
@@ -110,22 +115,20 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
     }
 }
 
-export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): AppThunk => async (dispatch, getState) => {
+export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ProfileThunk => async (dispatch, getState) => {
     const userId = getState().auth.userID
     const res = await profileDataAPI.updateProfileData(dataProfile!)
-    try {
-        if (res.data.resultCode === 0) {
-            if (userId) {
-                dispatch(getProfileThunk(userId))
-            } else {
-                throw new Error("userId can't be null")
-            }
+
+    if (res.data.resultCode === 0) {
+        if (userId) {
+            dispatch(getProfileThunk(userId))
         } else {
-            dispatch(stopSubmit("profileForm", {_error: res.data.messages[0]}))
-            dispatch(setErrorAC(res.data.messages[0]))
+            throw new Error("userId can't be null")
         }
-    } catch (error) {
-        console.log(error)
+    } else {
+        dispatch(stopSubmit("profileForm", {_error: res.data.messages[0]}))
+        dispatch(setErrorAC(res.data.messages[0]))
+        return Promise.reject(res.data.messages[0])
     }
 }
 
@@ -206,6 +209,7 @@ export type ProfileInfoType = {
     fullName: string
     contacts: ContactsType
     photos: PhotosType
+    errors: string
 }
 
 
@@ -232,3 +236,7 @@ export type ProfilePageType = {
     status: string
     errorUpdate: null | string
 }
+
+
+//type ProfileThunkType = AppThunk<ProfileActionType | FormAction>
+export type ProfileThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ProfileActionType | FormAction>

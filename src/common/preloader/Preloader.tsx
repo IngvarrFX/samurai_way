@@ -1,5 +1,5 @@
 import React from "react";
-import preloader from '../../assets/images/810.svg'
+import preloader from '../../assets/images/1484.gif'
 import styles from './Preloader.module.css'
 
 

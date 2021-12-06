@@ -1,6 +1,7 @@
 import {ProfileInfoType} from "../../../redux/profileReducer";
 import React from "react";
 import {Contact} from "./Contact";
+import {Button} from "@mui/material";
 
 type ProfileDataType = {
     profile: ProfileInfoType
@@ -23,7 +24,7 @@ export const ProfileData = (props: ProfileDataType) => {
     return (
         <div>
             {props.isOwnPhoto && <div>
-                <button onClick={props.onEdit}>Edit</button>
+                <Button style={{margin: "5px"}} variant={"contained"} onClick={props.onEdit}>Edit</Button>
             </div>}
             <span><b>FullName: </b></span>
             <span>{props.profile.fullName} </span>

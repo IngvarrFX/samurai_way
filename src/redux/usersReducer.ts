@@ -43,7 +43,7 @@ export type InitialStateType = {
 
 const initialState: InitialStateType = {
     users: [],
-    usersOnPage: 100,
+    usersOnPage: 20,
     totalUsers: 0,
     currentPage: 1,
     isFetching: true,

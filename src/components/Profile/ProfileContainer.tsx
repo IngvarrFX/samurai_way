@@ -24,18 +24,14 @@ type PathParamsType = {
 type PropsType = RouteComponentProps<PathParamsType>
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
-// {
-//     profile: ProfileInfoType | null
-//     status: string
-//     userID: number | null
-// }
+
 
 type MapDispatchToPropsType = {
     getUserProfile: (userID: number) => void
     getProfileStatus: (userID: number) => void
     updateProfileStatus: (status: string) => void
     savePhoto: (file: File) => void
-    updateProfileData: (data: ProfileDataType) => void
+    updateProfileData: (data: ProfileDataType) => Promise<any>
 }
 
 
@@ -99,17 +95,13 @@ const mapStateToProps = (state: AppStateType) => {
     }
 
 }
-// let WithAuthRedirectComponent = withAuthRedirect(ProfileContainer)
-//
-// let WithUrlDataContainerComponent = withRouter(WithAuthRedirectComponent)
-
-
+//@ts-ignore
 export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     getUserProfile: getProfileThunk,
     getProfileStatus: getProfileStatusThunkCr,
     updateProfileStatus: updateProfileStatusThunkCr,
     savePhoto: savePhotoSuccessThunkCr,
-    updateProfileData: updateProfileDataThunkCr
+    updateProfileData: updateProfileDataThunkCr,
 }), withRouter, withAuthRedirect)(ProfileContainer)
 
 
