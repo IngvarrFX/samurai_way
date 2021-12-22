@@ -1,4 +1,4 @@
-import React, {ComponentType} from "react";
+import React from "react";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
@@ -96,7 +96,7 @@ const mapStateToProps = (state: AppStateType) => {
 
 }
 //@ts-ignore
-export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+export default compose<React.ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     getUserProfile: getProfileThunk,
     getProfileStatus: getProfileStatusThunkCr,
     updateProfileStatus: updateProfileStatusThunkCr,

@@ -1,7 +1,7 @@
 import {FormAction, stopSubmit} from "redux-form";
 import {v1} from "uuid";
 import {profileDataAPI, ProfileDataType, profileStatusAPI} from "../api/api";
-import {AppActionsType, AppStateType, AppThunk} from "./reduxStore";
+import {AppActionsType, AppDispatch, AppStateType, AppThunk, BaseThunkType, InferActionsTypes} from "./reduxStore";
 import {ThunkAction} from "redux-thunk";
 import {Dispatch} from "redux";
 
@@ -62,6 +62,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Pr
 }
 
 //actions
+
+
 export const addPostActionCreator = (value: string): AddPostActionCreatorType => ({type: ADD_POST, value})
 
 export const deletePostActionCreator = (postId: string): DeletePostActionCreatorType => ({type: DELETE_POST, postId})
@@ -115,7 +117,7 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
     }
 }
 
-export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ProfileThunk => async (dispatch, getState) => {
+export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkType => async (dispatch, getState) => {
     const userId = getState().auth.userID
     const res = await profileDataAPI.updateProfileData(dataProfile!)
 
@@ -238,5 +240,8 @@ export type ProfilePageType = {
 }
 
 
-//type ProfileThunkType = AppThunk<ProfileActionType | FormAction>
-export type ProfileThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ProfileActionType | FormAction>
+
+
+type ActionsType = InferActionsTypes<typeof setPhotoActionCreator>
+type ThunkType = BaseThunkType<ActionsType | FormAction>
+
