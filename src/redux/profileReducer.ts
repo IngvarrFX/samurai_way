@@ -1,9 +1,7 @@
 import {FormAction, stopSubmit} from "redux-form";
 import {v1} from "uuid";
 import {profileDataAPI, ProfileDataType, profileStatusAPI} from "../api/api";
-import {AppActionsType, AppDispatch, AppStateType, AppThunk, BaseThunkType, InferActionsTypes} from "./reduxStore";
-import {ThunkAction} from "redux-thunk";
-import {Dispatch} from "redux";
+import {AppThunk, BaseThunkType, InferActionsTypes} from "./reduxStore";
 import {Nullable} from "../types/types";
 
 
@@ -118,15 +116,15 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
     }
 }
 
-export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkType => async (dispatch, getState) => {
+export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkType => async (dispatch, getState):Promise<any> => {
     const userId = getState().auth.userID
-    const res = await profileDataAPI.updateProfileData(dataProfile!)
+    const res = await profileDataAPI.updateProfileData(dataProfile)
 
     if (res.data.resultCode === 0) {
         if (userId) {
             dispatch(getProfileThunk(userId))
         } else {
-            throw new Error("userId can't be null")
+           throw new Error("userId can't be null")
         }
     } else {
         dispatch(stopSubmit("profileForm", {_error: res.data.messages[0]}))
@@ -136,7 +134,6 @@ export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkTyp
 }
 
 export const getProfileThunk = (userID: number): AppThunk => async (dispatch) => {
-    //const res = await userAPI.getProfile(userID)
     const res = await profileStatusAPI.getProfile(userID)
     try {
         dispatch(setProfileAC(res.data))

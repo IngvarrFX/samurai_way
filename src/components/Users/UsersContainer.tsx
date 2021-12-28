@@ -82,8 +82,6 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 
-// let wAR = withAuthRedirect(UsersContainer)
-
 export default compose<ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     follow: folowThunk,
     unfollow: unfolowThunk,

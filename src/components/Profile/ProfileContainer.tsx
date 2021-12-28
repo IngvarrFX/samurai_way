@@ -96,12 +96,37 @@ const mapStateToProps = (state: AppStateType) => {
 
 }
 
-export default compose<React.ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+
+const mapDispatchToProps = (dispatch: any): MapDispatchToPropsType => {
+    return (
+        {
+            getUserProfile: (userID: number) => {
+                dispatch(getProfileThunk(userID))
+            },
+            getProfileStatus: (userID: number) => {
+                dispatch(getProfileStatusThunkCr(userID))
+            },
+            updateProfileStatus: (status: string) => {
+                dispatch(updateProfileStatusThunkCr(status))
+            },
+            savePhoto: (file: File) => {
+                dispatch(savePhotoSuccessThunkCr(file))
+            },
+            updateProfileData: (data: ProfileDataType) => {
+                return dispatch(updateProfileDataThunkCr(data))
+            },
+        }
+
+    )
+}
+
+export default compose<React.ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps), withRouter, withAuthRedirect)(ProfileContainer)
+
+
+/*{
     getUserProfile: getProfileThunk,
     getProfileStatus: getProfileStatusThunkCr,
     updateProfileStatus: updateProfileStatusThunkCr,
     savePhoto: savePhotoSuccessThunkCr,
     updateProfileData: updateProfileDataThunkCr,
-}), withRouter, withAuthRedirect)(ProfileContainer)
-
-
+}*/
