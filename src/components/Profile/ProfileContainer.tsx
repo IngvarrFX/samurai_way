@@ -95,7 +95,7 @@ const mapStateToProps = (state: AppStateType) => {
     }
 
 }
-//@ts-ignore
+
 export default compose<React.ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     getUserProfile: getProfileThunk,
     getProfileStatus: getProfileStatusThunkCr,

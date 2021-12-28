@@ -4,6 +4,7 @@ import {profileDataAPI, ProfileDataType, profileStatusAPI} from "../api/api";
 import {AppActionsType, AppDispatch, AppStateType, AppThunk, BaseThunkType, InferActionsTypes} from "./reduxStore";
 import {ThunkAction} from "redux-thunk";
 import {Dispatch} from "redux";
+import {Nullable} from "../types/types";
 
 
 const ADD_POST = "ADD-POST"
@@ -234,12 +235,10 @@ type PhotosType = {
 
 export type ProfilePageType = {
     postsData: Array<PostDataType>
-    profile: ProfileInfoType | null
+    profile: Nullable<ProfileInfoType>
     status: string
-    errorUpdate: null | string
+    errorUpdate: Nullable<string>
 }
-
-
 
 
 type ActionsType = InferActionsTypes<typeof setPhotoActionCreator>
