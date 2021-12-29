@@ -21,10 +21,7 @@ type ProfileInfoPropsType = {
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
     const [edit, setEdit] = useState(false)
     const onSubmit = (formData: ProfileInfoType) => {
-        props.updateProfileData(formData).then((res)=> {
-            console.log(res)
-            setEdit(false)
-        })
+        props.updateProfileData(formData).then(()=> {setEdit(false)})
     }
 
     const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
