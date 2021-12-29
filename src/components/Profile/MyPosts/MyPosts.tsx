@@ -18,7 +18,6 @@ export type DataType = {
 
 
 export const MyPosts = React.memo((props: DataType) => {
-    console.log('ren')
 
     let postsElemets = props.data.map((m) => <Post key={m.id} message={m.message} likeCounts={m.likesCount}/>)
 

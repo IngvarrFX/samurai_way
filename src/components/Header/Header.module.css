@@ -10,7 +10,12 @@
 .loginBlock{
     float: right;
 }
+
 .loginBlock a {
     color: white;
-
+    text-decoration: none;
+}
+.loginBlock Button {
+    color: black;
+    font-weight: bold;
 }

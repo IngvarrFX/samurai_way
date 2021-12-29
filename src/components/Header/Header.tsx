@@ -24,13 +24,14 @@ export const Header = (props: HeaderPropsType) => {
                     ?
                     <div>
                         {props.login}
-                        <Button variant={"contained"} onClick={props.logOut}>Log out</Button>
+                        <Button variant={"text"} onClick={props.logOut}>Log out</Button>
                     </div>
 
                     :
                     <div>
-                        {/*<img src={props.profilePhoto ? props.profilePhoto : avatarDefault} alt=""/>*/}
-                        <NavLink to="/login">Login</NavLink>
+                        <NavLink to="/login" >
+                            <Button variant={"text"}>Login</Button>
+                        </NavLink>
                     </div>
                 }
             </div>
