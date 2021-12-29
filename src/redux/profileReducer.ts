@@ -116,7 +116,7 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
     }
 }
 
-export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkType => async (dispatch, getState):Promise<any> => {
+export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkType => async (dispatch, getState):Promise<void> => {
     const userId = getState().auth.userID
     const res = await profileDataAPI.updateProfileData(dataProfile)
 
