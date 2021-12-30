@@ -1,8 +1,9 @@
 import {FormAction, stopSubmit} from "redux-form";
 import {v1} from "uuid";
-import {profileDataAPI, ProfileDataType, profileStatusAPI} from "../api/api";
 import {AppThunk, BaseThunkType, InferActionsTypes} from "./reduxStore";
 import {Nullable} from "../types/types";
+import {profileDataAPI, profileStatusAPI} from "../api/profileAPI";
+import {ProfileDataType} from "../api/types/types";
 
 
 const ADD_POST = "ADD-POST"
@@ -79,9 +80,6 @@ export const setProfileAC = (profile: ProfileInfoType): SetProfileACType => ({ty
 export const setErrorAC = (error: string): SetErrorACType => ({type: SET_ERROR, error} as const)
 
 
-// export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
-// type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
-
 
 //thunks
 export const getProfileStatusThunkCr = (userID: number): AppThunk => async (dispatch) => {
@@ -116,7 +114,7 @@ export const savePhotoSuccessThunkCr = (photo: File): AppThunk => async dispatch
     }
 }
 
-export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkType => async (dispatch, getState):Promise<void> => {
+export const updateProfileDataThunkCr = (dataProfile: ProfileDataType): ThunkType => async (dispatch, getState):Promise<any> => {
     const userId = getState().auth.userID
     const res = await profileDataAPI.updateProfileData(dataProfile)
 

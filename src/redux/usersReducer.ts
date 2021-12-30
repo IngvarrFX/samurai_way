@@ -1,4 +1,4 @@
-import {userAPI} from "../api/api";
+import {userAPI} from "../api/userAPI";
 import {AppThunk} from "./reduxStore";
 import {Dispatch} from "redux";
 import {ObjPropNameType, updateObjectInArray} from "../utils/object-helpers";

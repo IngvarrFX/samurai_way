@@ -1,9 +1,11 @@
-import {authAPI, loginAPI, securityAPI} from "../api/api";
 import {toggleIsFetchingAC, ToggleIsFetchingACType} from "./usersReducer";
 import {AppThunk} from "./reduxStore";
 import {stopSubmit} from "redux-form";
 import {ThunkDispatch} from "redux-thunk";
 import {FormAction} from "redux-form/lib/actions";
+import {authAPI} from "../api/authAPI";
+import {loginAPI} from "../api/loginAPI";
+import {securityAPI} from "../api/securityAPI";
 
 const SET_USER_DATA = "SET_USER_DATA"
 const SET_USER_PROFILE_DATA = "SET_USER_PROFILE_DATA"
@@ -64,18 +66,10 @@ export const setCaptchaUrlAC = (captchaUrl: string): SetCapchaUrlACType => ({
 })
 
 
-// export type ThunkActionType = ThunkAction<void, AppStateType, unknown, AppActionsType>
-// type DispatchType = ThunkDispatch<InitialStateType, undefined, AnyAction>
-
 
 //thunks
 export const getUserDataThunk = () => async (dispatch: ThunkDispatch<Promise<string | void>, unknown, AuthActionType>) => {
     dispatch(toggleIsFetchingAC(true))
-    // const res = await authAPI.me()
-    // if (res.data.resultCode === 0) {
-    //     let {id, email, login} = res.data.data
-    //     dispatch(setUserDataAC(id, email, login, true))
-    // }
     let res = await authAPI.me()
     try {
         if (res.data.resultCode === 0) {
@@ -133,14 +127,7 @@ export const logOutTC = (): AppThunk => async dispatch => {
 
 //types
 
-// type InitialStateType = {
-//     userID: number | null
-//     email: string | null
-//     login: string | null
-//     isAuth: boolean
-//     user: UserType | null,
-//     error: string
-// }
+
 
 type ContactsType = {
     github: string

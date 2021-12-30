@@ -5,7 +5,8 @@ import {ProfileStatusWithHooks} from "../ProfileStatusWithHooks";
 import {ProfileInfoType} from "../../../redux/profileReducer";
 import {ProfileData} from "./ProfileData";
 import ProfileDataForm from "../ProfileDataForm";
-import {ProfileDataType} from "../../../api/api";
+import {ProfileDataType} from "../../../api/types/types";
+
 
 
 type ProfileInfoPropsType = {
@@ -37,7 +38,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
             <div className={style.descriptionBlock}>
                 <span className={style.profilePhoto}>
                     <img src={props.profile.photos.large ? props.profile.photos.large : avatarDefault} alt=""/>
-                    {props.isOwnPhoto && <input type={"file"} onChange={onMainPhotoSelected}/>}
+                    {props.isOwnPhoto && <input className={"customFileInput"} type={"file"} onChange={onMainPhotoSelected}/>}
                 </span>
                 <ProfileStatusWithHooks
                     status={props.status}
