@@ -122,12 +122,3 @@ const mapDispatchToProps = (dispatch: any): MapDispatchToPropsType => {
 }
 
 export default compose<React.ComponentType>(connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps), withRouter, withAuthRedirect)(ProfileContainer)
-
-
-/*{
-    getUserProfile: getProfileThunk,
-    getProfileStatus: getProfileStatusThunkCr,
-    updateProfileStatus: updateProfileStatusThunkCr,
-    savePhoto: savePhotoSuccessThunkCr,
-    updateProfileData: updateProfileDataThunkCr,
-}*/
