@@ -32,7 +32,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 props.savePhoto(e.target.files[0])
             }
         }
-    }, [e.target.files])
+    }, [props.savePhoto])
 
     return (
         <div className={style.mainBlock}>
