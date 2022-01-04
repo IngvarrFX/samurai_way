@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {addPostActionCreator, deletePostActionCreator, ProfilePageType, profileReducer} from "./profileReducer";
+import {addPostActionCreator, deletePostActionCreator, ProfilePageType, profileReducer} from "../profileReducer";
 
 
 const state: ProfilePageType = {
@@ -9,11 +9,13 @@ const state: ProfilePageType = {
         {id: v1(), message: "You are the best!", likesCount: 24},
         {id: v1(), message: "Good night!", likesCount: 15},
     ],
-    status: ''
+    status: "",
+    profile: null,
+    errorUpdate: null,
 }
 
 
-test('should be added',()=>{
+test("should be added", () => {
     // data
     const action = addPostActionCreator("It-incubator")
 
@@ -25,7 +27,7 @@ test('should be added',()=>{
 
 })
 
-test('should be added post correct',()=>{
+test("should be added post correct", () => {
     // data
     const action = addPostActionCreator("It-incubator")
 
@@ -38,8 +40,7 @@ test('should be added post correct',()=>{
 })
 
 
-
-test('should be deleted',()=>{
+test("should be deleted", () => {
     // data
     let postId = state.postsData[0].id
     const action = deletePostActionCreator(postId)
