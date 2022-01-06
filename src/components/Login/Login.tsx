@@ -63,7 +63,7 @@ type LoginPropsType = {
 }
 
 
-const Login = (props: LoginPropsType) => {
+const Login = React.memo((props: LoginPropsType) => {
     const onSubmit = (formData: LoginFormType) => {
         props.login(formData.login, formData.password, formData.rememberMe, formData.captcha)
 
@@ -78,7 +78,7 @@ const Login = (props: LoginPropsType) => {
             <ContactForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
         </div>
     )
-}
+})
 type MapStateToPropsType = {
     isAuth: boolean
     captchaUrl: string | null
