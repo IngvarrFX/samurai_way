@@ -1,8 +1,8 @@
-import React from 'react';
-import style from './NavBar.module.css'
-import {NavLink} from 'react-router-dom';
+import React from "react";
+import style from "./NavBar.module.css"
+import {NavLink} from "react-router-dom";
 
-export const NavBar = () => {
+export const NavBar = React.memo(() => {
     return (
         <nav className={style.nav}>
             <div className={style.item}>
@@ -19,4 +19,4 @@ export const NavBar = () => {
                 <NavLink to="/settings" activeClassName={style.activeLink}>Settings</NavLink></div>
         </nav>
     )
-}
+})
