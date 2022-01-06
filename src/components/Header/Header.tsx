@@ -11,7 +11,7 @@ type HeaderPropsType = {
 
 }
 
-export const Header = (props: HeaderPropsType) => {
+export const Header = React.memo((props: HeaderPropsType) => {
     return (
         <header className={style.header}>
             <NavLink to={"/"}>
@@ -29,7 +29,7 @@ export const Header = (props: HeaderPropsType) => {
 
                     :
                     <div>
-                        <NavLink to="/login" >
+                        <NavLink to="/login">
                             <Button variant={"text"}>Login</Button>
                         </NavLink>
                     </div>
@@ -37,4 +37,4 @@ export const Header = (props: HeaderPropsType) => {
             </div>
         </header>
     )
-}
+})
