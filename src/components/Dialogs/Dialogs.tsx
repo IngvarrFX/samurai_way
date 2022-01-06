@@ -22,7 +22,7 @@ type DialogsPropsType = {
     addPost: (value: string) => void
 }
 
-export const Dialogs = (props: DialogsPropsType) => {
+export const Dialogs = React.memo((props: DialogsPropsType) => {
 
     let dialogsElement = props.dialogs.map((d) => <DialogItem key={d.id} name={d.name} id={d.id}/>)
     let messagesElement = props.messages.map((m) => <Messages key={m.id} message={m.message}/>)
@@ -45,4 +45,4 @@ export const Dialogs = (props: DialogsPropsType) => {
 
         </div>
     )
-}
+})
