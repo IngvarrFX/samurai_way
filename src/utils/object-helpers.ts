@@ -1,18 +1,7 @@
-import {UserType} from "../redux/usersReducer";
-
-
-export enum ObjPropNameType {
-    id = "id",
-    firstName = "firstName",
-    name = "name",
-    status = "status",
-    followed = "followed",
-    location = "location",
-    photoUser = "photoUser",
-    photos = "photos"
+type IsFollowedType = {
+    followed: boolean
 }
 
-export const updateObjectInArray = (items: Array<UserType>, itemId: number, objPropName: ObjPropNameType, newObjProps: { followed: boolean }) => {
-
-    return items.map(u => u[objPropName] === itemId ? {...u, ...newObjProps} : u)
+export function updateObjectInArray<T, L1 extends keyof T>(items: T[], itemId: number, objPropName: L1, newObjProps: IsFollowedType): T[] {
+    return items.map((u) => Number(u[objPropName]) === itemId ? {...u, ...newObjProps} : u)
 }

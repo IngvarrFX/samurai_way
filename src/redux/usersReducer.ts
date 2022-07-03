@@ -1,7 +1,7 @@
 import {userAPI} from "../api/userAPI";
 import {AppThunk} from "./reduxStore";
 import {Dispatch} from "redux";
-import {ObjPropNameType, updateObjectInArray} from "../utils/object-helpers";
+import {updateObjectInArray} from "../utils/object-helpers";
 
 
 //consts
@@ -65,13 +65,13 @@ export const usersReducer = (state: InitialStateType = initialState, action: Use
         case FOLLOW: {
             return {
                 ...state,
-                users: updateObjectInArray(state.users, action.userId, ObjPropNameType.id, {followed: true})
+                users: updateObjectInArray(state.users, action.userId, "id", {followed: true})
             }
         }
         case UNFOLLOW: {
             return {
                 ...state,
-                users: updateObjectInArray(state.users, action.userId, ObjPropNameType.id, {followed: false})
+                users: updateObjectInArray(state.users, action.userId, "id", {followed: false})
             }
         }
         case SET_USERS: {
